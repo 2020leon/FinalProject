@@ -6,6 +6,7 @@ namespace FinalProject
     {
         // Game.cs
 
+        [System.Obsolete("Deprecated", true)]
         Task<string> ReceiveNameOfPlayerAsync(Game receiver);
 
         // Player.cs

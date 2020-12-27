@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace FinalProject
 {
     class WenZhe : Minion
@@ -6,11 +8,12 @@ namespace FinalProject
 
         }
 
-        public override void GoOnField() {
+        public override Task GoOnField() {
             base.GoOnField();
             foreach (Minion minion in Player.MinionsOnField) {
                 minion.IsEnabledToBeAttacked = false;
             }
+            return Task.CompletedTask;
         }
     }
 }

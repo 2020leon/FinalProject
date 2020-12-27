@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace FinalProject
 {
     abstract class Spell : Card
@@ -6,8 +8,9 @@ namespace FinalProject
 
         }
 
-        public virtual void LaunchSpell() {
+        public virtual Task LaunchSpell() {
             GameIO.GameOut.SendLaunchSpellSignal(this);
+            return Task.CompletedTask;
         }
     }
 }

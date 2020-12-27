@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace FinalProject
 {
     class QiMai : Minion
@@ -6,17 +8,17 @@ namespace FinalProject
 
         }
 
-        public override void GoOnField() {
-            base.GoOnField();
+        public async override Task GoOnField() {
+            await base.GoOnField();
             Player enemy = Player.Game.GetMyEnemy(Player);
             if (!(Player.IsFieldFull || enemy.MinionsOnField.Count == 0)) {
-                Minion minion = Player.ChooseEnemyMinionOnField(enemy);
+                Minion minion = await Player.ChooseEnemyMinionOnField(enemy);
                 GameIO.GameOut.SendChoiceResponse(Player, minion, ChoiceResponse.Success);
                 enemy.MinionsOnField.Remove(minion);
                 minion.RemoveFromField();
                 minion.Player = Player;
                 Player.MinionsOnField.Add(minion);
-                minion.GoOnField();
+                await minion.GoOnField();
             }
         }
     }

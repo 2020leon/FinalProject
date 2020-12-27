@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace FinalProject
 {
     class ZhengChang : Minion
@@ -6,7 +8,7 @@ namespace FinalProject
 
         }
 
-        public override void GoOnField() {
+        public override Task GoOnField() {
             base.GoOnField();
             XiKun xiKun = null;
             ZongLi zongLi = null;
@@ -31,6 +33,7 @@ namespace FinalProject
                 Player.MinionsOnField.Add(yingWen);
                 yingWen.GoOnField();
             }
+            return Task.CompletedTask;
         }
     }
 }

@@ -34,9 +34,8 @@ namespace FinalProject
         }
 
         public Game() {
-            string nameOfPlayer = GameIO.GameIn.ReceiveNameOfPlayerAsync(this).Result;
             round = 0;
-            player = new Player(this, nameOfPlayer, true);
+            player = new Player(this, "Player", true);
             computer = new Player(this, "Computer", false);
             deck = new List<Card>();
             Status = GameStatus.Start;

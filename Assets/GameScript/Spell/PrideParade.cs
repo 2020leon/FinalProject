@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace FinalProject
 {
     class PrideParade : Spell
@@ -6,13 +8,14 @@ namespace FinalProject
 
         }
 
-        public override void LaunchSpell() {
+        public override Task LaunchSpell() {
             base.LaunchSpell();
             foreach (Minion minion in Player.MinionsOnField) {
                 if (minion.Attribute == Attribute.Green) {
                     minion.Hp++;
                 }
             }
+            return Task.CompletedTask;
         }
     }
 }

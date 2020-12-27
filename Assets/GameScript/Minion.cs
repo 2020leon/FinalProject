@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace FinalProject
 {
     enum Attribute {
@@ -56,8 +58,9 @@ namespace FinalProject
             this.attribute = attribute;
         }
 
-        public virtual void GoOnField() {
+        public virtual Task GoOnField() {
             GameIO.GameOut.SendGoOnFieldSignal(this);
+            return Task.CompletedTask;
         }
 
         public virtual void RemoveFromField() {
