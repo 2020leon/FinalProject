@@ -1,17 +1,24 @@
 ﻿<Properties StartupConfiguration="{B52AD8C6-E378-99B2-452F-7322B8DA4FCD}|">
-  <MonoDevelop.Ide.ItemProperties.FinalProject PreferredExecutionTarget="da686fc1-cd1a-4dfb-a39d-5d085a9ff490" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/FrontScript/Output/Presenter.cs">
+  <MonoDevelop.Ide.ItemProperties.FinalProject PreferredExecutionTarget="dc9dedf1-2284-4aec-8bfb-1144e6dd377e" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GameScript/Spell.cs">
     <Files>
       <File FileName="Assets/FrontScript/GameStarter.cs" Line="18" Column="9" />
-      <File FileName="Assets/FrontScript/Output/Presenter.cs" Line="95" Column="17" />
-      <File FileName="Assets/FrontScript/Output/UnityOutput.cs" Line="120" Column="67" />
-      <File FileName="Assets/FrontScript/UnityInput.cs" Line="20" Column="38" />
-      <File FileName="Assets/FrontScript/GameState.cs" Line="29" Column="37" />
-      <File FileName="Assets/FrontScript/Card/CardClickListener.cs" Line="13" Column="69" />
-      <File FileName="Assets/GameScript/Spell/PrideParade.cs" Line="10" Column="1" />
-      <File FileName="Assets/GameScript/Game.cs" Line="33" Column="1" />
-      <File FileName="Assets/FrontScript/EndTurnButtonClick.cs" Line="11" Column="1" />
-      <File FileName="Assets/GameScript/GameIO/IGameOut.cs" Line="3" Column="10" />
+      <File FileName="Assets/FrontScript/Output/Presenter.cs" Line="86" Column="44" />
+      <File FileName="Assets/FrontScript/Output/UnityOutput.cs" Line="84" Column="33" />
+      <File FileName="Assets/FrontScript/UnityInput.cs" Line="1" Column="1" />
+      <File FileName="Assets/FrontScript/GameState.cs" Line="13" Column="45" />
+      <File FileName="Assets/FrontScript/Card/CardClickListener.cs" />
+      <File FileName="Assets/FrontScript/Card/MinionClickListener.cs" />
+      <File FileName="Assets/GameScript/Spell/PrideParade.cs" Line="1" Column="1" />
+      <File FileName="Assets/GameScript/Game.cs" Line="1" Column="1" />
+      <File FileName="Assets/FrontScript/EndTurnButtonClick.cs" />
+      <File FileName="Assets/GameScript/GameIO/IGameOut.cs" />
+      <File FileName="Assets/GameScript/Player.cs" Line="175" Column="10" />
+      <File FileName="Assets/GameScript/Spell.cs" Line="9" Column="28" />
+      <File FileName="Assets/GameScript/Spell/FakeNews.cs" Line="16" Column="47" />
+      <File FileName="Assets/GameScript/Spell/Inflation.cs" Line="1" Column="1" />
+      <File FileName="Assets/GameScript/Spell/Earthquake.cs" Line="1" Column="1" />
+      <File FileName="Assets/GameScript/Spell/CtiNews.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -20,15 +27,14 @@
             <Node name="Assets" expanded="True">
               <Node name="FrontScript" expanded="True">
                 <Node name="Card" expanded="True" />
-                <Node name="Output" expanded="True">
-                  <Node name="Presenter.cs" selected="True" />
-                </Node>
+                <Node name="Output" expanded="True" />
               </Node>
               <Node name="GameScript" expanded="True">
                 <Node name="GameIO" expanded="True">
                   <Node name="Example" expanded="True" />
                 </Node>
                 <Node name="Spell" expanded="True" />
+                <Node name="Spell.cs" selected="True" />
               </Node>
             </Node>
           </Node>
@@ -39,7 +45,10 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/secminhr/Desktop/FinalProject/Assets/FrontScript/Output/UnityOutput.cs" relfile="Assets/FrontScript/Output/UnityOutput.cs" line="127" column="1" />
+      <Breakpoint file="/Users/secminhr/Desktop/FinalProject/Assets/FrontScript/Output/UnityOutput.cs" relfile="Assets/FrontScript/Output/UnityOutput.cs" line="167" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>
