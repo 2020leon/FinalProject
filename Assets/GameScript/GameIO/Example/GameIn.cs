@@ -9,6 +9,7 @@ namespace Example
     {
         // Game.cs
 
+        [Obsolete("Deprecated", true)]
         public async Task<string> ReceiveNameOfPlayerAsync(Game receiver) {
             await Task.Delay(0);
             return "Player";

@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace FinalProject
 {
     class GuoYu : Minion
@@ -6,9 +8,10 @@ namespace FinalProject
 
         }
 
-        public override void GoOnField() {
+        public override Task GoOnField() {
             base.GoOnField();
             Player.WalletSize++;
+            return Task.CompletedTask;
         }
 
         public override void RemoveFromField() {

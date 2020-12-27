@@ -189,7 +189,7 @@ namespace FinalProject
                             }
                             else {
                                 GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.Success);
-                                DoAttack(chosenMinion, other);
+                                await DoAttack(chosenMinion, other);
                                 if (status == PlayerStatus.Victory) {
                                     return;
                                 }
@@ -227,7 +227,7 @@ namespace FinalProject
             GameIO.GameOut.SendEndOfRoundSignal(this);
         }
 
-        private void DoAttack(Minion attacker, Player other) {
+        private async Task DoAttack(Minion attacker, Player other) {
             for (
                 int i = 0;
                 i < attacker.NumberOfAttack && (
@@ -237,7 +237,7 @@ namespace FinalProject
             ) {
                 Minion enemyMinion;
                 do {
-                    enemyMinion = ChooseEnemyHeadOrMinionOnField(other);
+                    enemyMinion = await ChooseEnemyHeadOrMinionOnField(other);
                     if (!enemyMinion.IsEnabledToBeAttacked || (other.MinionsOnField.Count > 0 && enemyMinion is Player)) {
                         GameIO.GameOut.SendChoiceResponse(this, enemyMinion, ChoiceResponse.DisabledToBeAttacked);
                     }
@@ -309,9 +309,9 @@ namespace FinalProject
             }
         }
 
-        private Minion ChooseEnemyHeadOrMinionOnField(Player other) {
+        private async Task<Minion> ChooseEnemyHeadOrMinionOnField(Player other) {
             if (isManual) {
-                return GameIO.GameIn.ReceiveEnemyHeadOrMinionOnFieldAsync(this, other).Result;
+                return await GameIO.GameIn.ReceiveEnemyHeadOrMinionOnFieldAsync(this, other);
             }
             else {
                 if (other.MinionsOnField.Count == 0) {
@@ -324,10 +324,10 @@ namespace FinalProject
             }
         }
 
-        public Minion ChooseEnemyMinionOnField(Player other) {
+        public async Task<Minion> ChooseEnemyMinionOnField(Player other) {
             if (other.MinionsOnField.Count == 0) return null;
             if (isManual) {
-                return GameIO.GameIn.ReceiveEnemyMinionOnFieldAsync(this, other).Result;
+                return await GameIO.GameIn.ReceiveEnemyMinionOnFieldAsync(this, other);
             }
             else {
                 Random random = new Random();

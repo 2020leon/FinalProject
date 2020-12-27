@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace FinalProject
 {
     class Earthquake : Spell
@@ -6,7 +8,7 @@ namespace FinalProject
 
         }
 
-        public override void LaunchSpell() {
+        public override Task LaunchSpell() {
             base.LaunchSpell();
             var beAttackedMinions = new System.Collections.Generic.HashSet<Minion>();
             var enemy = Player.Game.GetMyEnemy(Player);
@@ -25,6 +27,7 @@ namespace FinalProject
                 }
             }
             beAttackedMinions.Clear();
+            return Task.CompletedTask;
         }
     }
 }

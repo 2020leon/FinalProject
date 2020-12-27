@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace FinalProject
 {
     class Inflation : Spell
@@ -9,9 +11,10 @@ namespace FinalProject
 
         }
 
-        public override void LaunchSpell() {
+        public override Task LaunchSpell() {
             base.LaunchSpell();
             Player.Game.GetMyEnemy(Player).InflationTime++;
+            return Task.CompletedTask;
         }
     }
 }
