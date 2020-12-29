@@ -270,6 +270,7 @@ namespace FinalProject
 
         private async Task LaunchSpell(Spell spell) {
             cardsInHand.Remove(spell);
+            Cash -= (short)(spell.Cost + Inflation.ExtraCost * inflationTime);
             await spell.LaunchSpell();
         }
 
