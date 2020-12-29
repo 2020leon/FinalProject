@@ -8,8 +8,8 @@ namespace FinalProject
 
         }
 
-        public override Task LaunchSpell() {
-            base.LaunchSpell();
+        public async override Task LaunchSpell() {
+            await base.LaunchSpell();
             var beAttackedMinions = new System.Collections.Generic.HashSet<Minion>();
             var enemy = Player.Game.GetMyEnemy(Player);
             foreach (var minion in Player.MinionsOnField) {
@@ -27,7 +27,6 @@ namespace FinalProject
                 }
             }
             beAttackedMinions.Clear();
-            return Task.CompletedTask;
         }
     }
 }

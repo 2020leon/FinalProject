@@ -8,10 +8,9 @@ namespace FinalProject
 
         }
 
-        public override Task GoOnField() {
-            base.GoOnField();
+        public async override Task GoOnField() {
+            await base.GoOnField();
             Player.WalletSize++;
-            return Task.CompletedTask;
         }
 
         public override void RemoveFromField() {

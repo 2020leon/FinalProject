@@ -8,8 +8,8 @@ namespace FinalProject
 
         }
 
-        public override Task GoOnField() {
-            base.GoOnField();
+        public async override Task GoOnField() {
+            await base.GoOnField();
             ZhengChang zhengChang = null;
             ZongLi zongLi = null;
             foreach (Minion minion in Player.MinionsOnField) {
@@ -31,9 +31,8 @@ namespace FinalProject
                 Player.MinionsOnField.Remove(zongLi);
                 zongLi.RemoveFromField();
                 Player.MinionsOnField.Add(yingWen);
-                yingWen.GoOnField();
+                await yingWen.GoOnField();
             }
-            return Task.CompletedTask;
         }
     }
 }

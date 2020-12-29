@@ -11,10 +11,9 @@ namespace FinalProject
 
         }
 
-        public override Task LaunchSpell() {
-            base.LaunchSpell();
+        public async override Task LaunchSpell() {
+            await base.LaunchSpell();
             Player.Game.GetMyEnemy(Player).InflationTime++;
-            return Task.CompletedTask;
         }
     }
 }

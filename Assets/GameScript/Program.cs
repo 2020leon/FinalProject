@@ -13,7 +13,7 @@ namespace FinalProject
             do {
                 game = new Game();
                 game.Start();
-                game.DoRounds();
+                game.DoRounds().Wait();
                 Console.WriteLine("\n## " + game.Status);
             } while (false);
         }

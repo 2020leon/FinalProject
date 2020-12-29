@@ -8,12 +8,11 @@ namespace FinalProject
 
         }
 
-        public override Task GoOnField() {
-            base.GoOnField();
+        public async override Task GoOnField() {
+            await base.GoOnField();
             foreach (Minion minion in Player.MinionsOnField) {
                 minion.IsEnabledToBeAttacked = false;
             }
-            return Task.CompletedTask;
         }
     }
 }

@@ -203,7 +203,7 @@ namespace FinalProject
                         if (chosenMinion.Cost + Inflation.ExtraCost * inflationTime <= cash && !IsFieldFull) {
                             GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.Success);
                             Status = PlayerStatus.PuttingMinionsToField;
-                            PutMinionInHandToField(chosenMinion);
+                            await PutMinionInHandToField(chosenMinion);
                         }
                         else if (IsFieldFull) {
                             GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.FieldIsFull);
@@ -217,7 +217,7 @@ namespace FinalProject
                     Spell chosenSpell = chosenCard as Spell;
                     if (chosenSpell.Cost + Inflation.ExtraCost * inflationTime <= cash) {
                         GameIO.GameOut.SendChoiceResponse(this, chosenSpell, ChoiceResponse.Success);
-                        LaunchSpell(chosenSpell);
+                        await LaunchSpell(chosenSpell);
                     }
                     else {
                         GameIO.GameOut.SendChoiceResponse(this, chosenSpell, ChoiceResponse.LackOfCash);
@@ -261,16 +261,16 @@ namespace FinalProject
             }
         }
 
-        private void PutMinionInHandToField(Minion minion) {
+        private async Task PutMinionInHandToField(Minion minion) {
             cardsInHand.Remove(minion);
             Cash -= (short)(minion.Cost + Inflation.ExtraCost * inflationTime);
             minionsOnField.Add(minion);
-            minion.GoOnField();
+            await minion.GoOnField();
         }
 
-        private void LaunchSpell(Spell spell) {
+        private async Task LaunchSpell(Spell spell) {
             cardsInHand.Remove(spell);
-            spell.LaunchSpell();
+            await spell.LaunchSpell();
         }
 
         private async Task<Card> ChooseMyCard(Player other) {

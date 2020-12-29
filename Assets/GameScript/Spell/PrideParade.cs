@@ -8,14 +8,13 @@ namespace FinalProject
 
         }
 
-        public override Task LaunchSpell() {
-            base.LaunchSpell();
+        public async override Task LaunchSpell() {
+            await base.LaunchSpell();
             foreach (Minion minion in Player.MinionsOnField) {
                 if (minion.Attribute == Attribute.Green) {
                     minion.Hp++;
                 }
             }
-            return Task.CompletedTask;
         }
     }
 }
