@@ -10,7 +10,7 @@ namespace FinalProject
         {
             if (GameState.UserInputNeeded)
             {
-                GameState.InputObject = gameObject.GetComponent<CardDataHolder>().card;
+                GameState.CardInput = gameObject.GetComponent<CardDataHolder>().card;
             }
         }
     }

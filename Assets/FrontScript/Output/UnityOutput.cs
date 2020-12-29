@@ -9,11 +9,9 @@ namespace FinalProject
     class UnityOutput : MonoBehaviour, IGameOut
     {
         [SerializeField]
-        private Animator gameStartAnimator;
+        private Animator roundChangeAnimator;
         [SerializeField]
-        private Animator playerTurnAnimator;
-        [SerializeField]
-        private Animator enemyTurnAnimator;
+        private AnimationManager animationmanager;
 
         private Game game;
 
@@ -27,9 +25,9 @@ namespace FinalProject
         [HideInInspector]
         public string RoundNumber = string.Empty;
         [HideInInspector]
-        public string UserCash = string.Empty;
+        public short UserCash = 0;
         [HideInInspector]
-        public string EnemyCash = string.Empty;
+        public short EnemyCash = 0;
 
         public void SendAfterStatus(Game sender, GameStatus gameStatus)
         {
@@ -63,7 +61,6 @@ namespace FinalProject
 
         public void SendGameStartSignal(Game sender)
         {
-            gameStartAnimator.SetTrigger("start");
             game = sender;
         }
 
@@ -75,32 +72,24 @@ namespace FinalProject
         public void SendRoundCount(Game sender, int round)
         {
             RoundNumber = round.ToString();
+
         }
 
         public void SendAfterCash(Player sender, short cash)
         {
             if (sender.IsUser())
             {
-                UserCash = cash.ToString();
+                UserCash = cash;
             }
             else
             {
-                EnemyCash = cash.ToString();
+                EnemyCash = cash;
             }
         }
 
         public void SendStartingPlayerAndRound(Player sender, int gameRound)
         {
-            if (sender.IsUser())
-            {
-                GameState.UserControllable = true;
-                playerTurnAnimator.SetTrigger("start");
-            }
-            else
-            {
-                GameState.UserControllable = false;
-                enemyTurnAnimator.SetTrigger("start");
-            }
+            animationmanager.EnqueueAnimator(roundChangeAnimator);
         }
 
         public void SendAfterStatus(Player sender, PlayerStatus playerStatus)
@@ -132,22 +121,22 @@ namespace FinalProject
 
         public void SendAfterFieldSize(Player sender, short fieldSize)
         {
-            throw new NotImplementedException();
+            //TODO: not implemented
         }
 
         public void SendAfterIsInflation(Player sender, short inflationTime)
         {
-            throw new NotImplementedException();
+            //TODO: not implemented
         }
 
         public void SendAfterWalletSize(Player sender, short walletSize)
         {
-            throw new NotImplementedException();
+            //TODO: not implemented
         }
 
         public void SendPlayerCanDoNothingSignal(Player sender)
         {
-            throw new NotImplementedException();
+            //TODO: not implemented
         }
 
         public void SendHandOfPlayerIsFullSignal(Player sender)
@@ -157,47 +146,47 @@ namespace FinalProject
 
         public void SendDeckIsEmptySignal(Player sender)
         {
-            throw new NotImplementedException();
+            //TODO: not implemented
         }
 
         public void SendAfterHp(Minion sender, short hp)
         {
-            throw new NotImplementedException();
+            //TODO: not implemented
         }
 
         public void SendAfterAtk(Minion sender, short atk)
         {
-            throw new NotImplementedException();
+            //TODO: not implemented
         }
 
         public void SendAfterIsEnabledToBeAttacked(Minion sender, bool isEnabledToBeAttacked)
         {
-            throw new NotImplementedException();
+            //TODO: not implemented
         }
 
         public void SendBeAttackedMinion(Minion sender, Minion beAttackedMinion)
         {
-            throw new NotImplementedException();
+            //TODO: not implemented
         }
 
         public void SendRemoveFromFieldSignal(Minion sender)
         {
-            throw new NotImplementedException();
+            //TODO: not implemented
         }
 
         public void SendMinionDieSignal(Minion sender)
         {
-            throw new NotImplementedException();
+            //TODO: not implemented
         }
 
         public void SendPlayerDieSignal(Player sender)
         {
-            throw new NotImplementedException();
+            //TODO: not implemented
         }
 
         public void SendRemainingMasks(ShiZhong sender, short remainingMasks)
         {
-            throw new NotImplementedException();
+            //TODO: not implemented
         }
     }
 }

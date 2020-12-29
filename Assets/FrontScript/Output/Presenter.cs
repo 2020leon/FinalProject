@@ -21,6 +21,15 @@ namespace FinalProject
 		private MaterialMap materials;
 
 		[SerializeField]
+		private GameObject cashPrefab;
+		[SerializeField]
+		private GameObject emptyCashPrefab;
+		[SerializeField]
+		private Transform cashArea;
+		[SerializeField]
+		private Transform enemyCashArea;
+
+		[SerializeField]
 		private GameObject fieldMinionPrefab;
 		[SerializeField]
 		private Transform selfField;
@@ -29,25 +38,56 @@ namespace FinalProject
 		[SerializeField]
 		private MaterialMap minionMaterials;
 
-		[SerializeField]
-		private Text roundNumberText;
-		[SerializeField]
-		private Text userCashText;
-		[SerializeField]
-		private Text enemyCashText;
-
 		private List<GameObject> cardsObjectInHand = new List<GameObject>();
 
 		// Update is called once per frame
 		void Update()
 		{
-			roundNumberText.text = model.RoundNumber;
-			enemyCashText.text = model.EnemyCash;
-			userCashText.text = model.UserCash;
+			UpdateCash();
 			AddDrawnCard();
 			RemoveHandCard();
 			UpdateFieldCard();
 		}
+
+		private void UpdateCash()
+        {
+			for (int i = 0; i < 5; i++)
+            {
+				if (i+1 <= model.UserCash)
+                {
+					GameObject cash = Instantiate(cashPrefab);
+					Vector3 targetPos = cashArea.GetChild(i).position;
+					Destroy(cashArea.GetChild(i).gameObject);
+					cash.transform.parent = cashArea;
+					cash.transform.position = targetPos;
+				}
+				else
+                {
+					GameObject empty = Instantiate(emptyCashPrefab);
+					Vector3 targetPos = cashArea.GetChild(i).position;
+					Destroy(cashArea.GetChild(i).gameObject);
+					empty.transform.parent = cashArea;
+					empty.transform.position = targetPos;
+				}
+
+				if (i+1 <= model.EnemyCash)
+                {
+					GameObject cash = Instantiate(cashPrefab);
+					Vector3 targetPos = enemyCashArea.GetChild(i).position;
+					Destroy(enemyCashArea.GetChild(i).gameObject);
+					cash.transform.parent = enemyCashArea;
+					cash.transform.position = targetPos;
+				}
+				else
+                {
+					GameObject empty = Instantiate(emptyCashPrefab);
+					Vector3 targetPos = enemyCashArea.GetChild(i).position;
+					Destroy(enemyCashArea.GetChild(i).gameObject);
+					empty.transform.parent = enemyCashArea;
+					empty.transform.position = targetPos;
+				}
+            }
+        }
 
 		private void AddDrawnCard()
         {

@@ -9,31 +9,33 @@ namespace FinalProject
     class GameState: MonoBehaviour
     {
         public static bool UserInputNeeded = false;
-        public static object InputObject = null;
+
+        public static Card CardInput = null;
+
         public static bool GiveUpInput = false;
 
-        public static Task<Card> GetInput()
+        public static Task<Card> GetCardInput()
         {
             UserInputNeeded = true;
 
             return Task.Run(() =>
             {
-                while (InputObject == null && !GiveUpInput)
+                while (CardInput == null && !GiveUpInput)
                 {
                     ;
                 }
-                if (InputObject == null)
+                if (CardInput == null)
                 {
                     return null;
                 }
-                Card target = (Card)InputObject;
+                Card target = CardInput;
                 UserInputNeeded = false;
-                InputObject = null;
+                CardInput = null;
                 return target;
             });
         }
 
-        public static string UserName = ""; //This will be used as an identifier for user
+        public readonly static string UserName = "Player"; //This will be used as an identifier for user
         public static bool UserControllable = false;
     }
 

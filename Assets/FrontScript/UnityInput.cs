@@ -6,28 +6,25 @@ using UnityEngine;
 namespace FinalProject
 {
 	class UnityInput : MonoBehaviour, IGameIn
-	{
-
-        public Task<string> ReceiveNameOfPlayerAsync(Game receiver)
-        {
-            //temporary
-            GameState.UserName = "Player";
-            return Task.Run(() => GameState.UserName);
-        }
+    {
 
         public Task<Card> ReceiveMyCardAsync(Player receiver, Player enemy)
         {
-            return GameState.GetInput();
+            return GameState.GetCardInput();
         }
 
         public Task<Minion> ReceiveEnemyHeadOrMinionOnFieldAsync(Player receiver, Player enemy)
         {
-            throw new System.NotImplementedException();
+            //TODO: not implemented
+            //this will just hang
+            return Task.Run(() => { while (true) {; } return (Minion)new GuoYu(); });
         }
 
         public Task<Minion> ReceiveEnemyMinionOnFieldAsync(Player receiver, Player enemy)
         {
-            throw new System.NotImplementedException();
+            //TODO: not implemented
+            //this will just hang
+            return Task.Run(() => { while (true) {; } return (Minion)new GuoYu(); });
         }   
     }
 
