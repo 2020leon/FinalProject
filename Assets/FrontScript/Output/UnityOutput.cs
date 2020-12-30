@@ -73,8 +73,18 @@ namespace FinalProject
 
         public void SendRoundCount(Game sender, int round)
         {
-            RoundNumber = round.ToString();
+            if (round < 100)
+            {
+                string path = "回合/round" + round.ToString();
+                Debug.Log("round number path: " + path);
+                roundImage.sprite = Resources.Load<Sprite>(path);
+            }
+            else
+            {
+                roundImage.sprite = Resources.Load<Sprite>("回合/round--");
+            }
 
+            animationManager.EnqueueAnimator(roundChangeAnimator);
         }
 
         public void SendAfterCash(Player sender, short cash)
@@ -91,18 +101,7 @@ namespace FinalProject
 
         public void SendStartingPlayerAndRound(Player sender, int gameRound)
         {
-            if (gameRound < 100)
-            {
-                string path = "回合/round" + gameRound.ToString();
-                Debug.Log("round number path: " + path);
-                roundImage.sprite = Resources.Load<Sprite>(path);
-            }
-            else
-            {
-                roundImage.sprite = Resources.Load<Sprite>("回合/round--");
-            }
-
-            animationManager.EnqueueAnimator(roundChangeAnimator);
+            
         }
 
         public void SendAfterStatus(Player sender, PlayerStatus playerStatus)
