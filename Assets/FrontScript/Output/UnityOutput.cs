@@ -11,7 +11,9 @@ namespace FinalProject
         [SerializeField]
         private Animator roundChangeAnimator;
         [SerializeField]
-        private AnimationManager animationmanager;
+        private AnimationManager animationManager;
+        [SerializeField]
+        private Image roundImage;
 
         private Game game;
 
@@ -89,7 +91,18 @@ namespace FinalProject
 
         public void SendStartingPlayerAndRound(Player sender, int gameRound)
         {
-            animationmanager.EnqueueAnimator(roundChangeAnimator);
+            if (gameRound < 100)
+            {
+                string path = "回合/round" + gameRound.ToString();
+                Debug.Log("round number path: " + path);
+                roundImage.sprite = Resources.Load<Sprite>(path);
+            }
+            else
+            {
+                roundImage.sprite = Resources.Load<Sprite>("回合/round--");
+            }
+
+            animationManager.EnqueueAnimator(roundChangeAnimator);
         }
 
         public void SendAfterStatus(Player sender, PlayerStatus playerStatus)
