@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace FinalProject
 {
-    public class CardClickListener : MonoBehaviour {
+    public class CardMouseListener : MonoBehaviour {
+
+        public bool isOnField = false;
 
         private void OnMouseDown()
         {
@@ -16,12 +18,18 @@ namespace FinalProject
 
         private void OnMouseEnter()
         {
-            gameObject.transform.position += Vector3.up * 0.3f;
+            if (!isOnField)
+            {
+                gameObject.transform.position += Vector3.up * 0.3f;
+            }
         }
 
         private void OnMouseExit()
         {
-            gameObject.transform.position += Vector3.down * 0.3f;
+            if (!isOnField)
+            {
+                gameObject.transform.position += Vector3.down * 0.3f;
+            }
         }
     }
 }

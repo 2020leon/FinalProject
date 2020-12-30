@@ -10,8 +10,7 @@ namespace FinalProject
         {
             if (GameState.UserInputNeeded)
             {
-                GameState.CardInput = gameObject.GetComponent<MinionDataHolder>().minion;
-
+                GameState.HeadOrMinion = gameObject.GetComponent<MinionDataHolder>().minion;
             }
         }
     }

@@ -11,6 +11,7 @@ namespace FinalProject
         public static bool UserInputNeeded = false;
 
         public static Card CardInput = null;
+        public static Minion HeadOrMinion = null;
 
         public static bool GiveUpInput = false;
 
@@ -36,8 +37,28 @@ namespace FinalProject
             });
         }
 
+        public static Task<Minion> GetEnemyHeadOrMinion()
+        {
+            UserInputNeeded = true;
+            return Task.Run(() =>
+            {
+                while (HeadOrMinion == null && !GiveUpInput)
+                {
+                    ;
+                }
+                if (HeadOrMinion == null)
+                {
+                    GiveUpInput = false;
+                    return null;
+                }
+                Minion target = HeadOrMinion;
+                UserInputNeeded = false;
+                HeadOrMinion = null;
+                return target;
+            });
+        }
+
         public readonly static string UserName = "Player"; //This will be used as an identifier for user
-        public static bool UserControllable = false;
     }
 
     

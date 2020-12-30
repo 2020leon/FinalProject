@@ -15,9 +15,7 @@ namespace FinalProject
 
         public Task<Minion> ReceiveEnemyHeadOrMinionOnFieldAsync(Player receiver, Player enemy)
         {
-            //TODO: not implemented
-            //this will just hang
-            return Task.Run(() => { while (true) {; } return (Minion)new GuoYu(); });
+            return GameState.GetEnemyHeadOrMinion();
         }
 
         public Task<Minion> ReceiveEnemyMinionOnFieldAsync(Player receiver, Player enemy)

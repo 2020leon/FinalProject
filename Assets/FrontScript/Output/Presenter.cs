@@ -113,7 +113,7 @@ namespace FinalProject
 				if (!player.IsUser())
 				{
 					cardObject.GetComponent<Renderer>().material = null;
-					Destroy(cardObject.GetComponent<CardClickListener>());
+					Destroy(cardObject.GetComponent<CardMouseListener>());
 				}
 				cardsObjectInHand.Add(cardObject);
 			}
@@ -141,14 +141,20 @@ namespace FinalProject
 				Player player = pair.Key;
 				Minion minion = pair.Value;
 
-				GameObject minionObject = Instantiate(fieldMinionPrefab);
-				minionObject.GetComponent<Renderer>().material = minionMaterials[minion.Name];
-				minionObject.GetComponent<MinionDataHolder>().minion = minion;
-				minionObject.transform.parent = player.IsUser() ? selfField : enemyField;
-
-				if (!player.IsUser())
-				{
-					Destroy(minionObject.GetComponent<CardClickListener>());
+				if (player.IsUser())
+                {
+					GameObject cardObject = Instantiate(cardPrefab);
+					cardObject.GetComponent<Renderer>().material = materials[minion.Name];
+					cardObject.GetComponent<CardDataHolder>().card = minion;
+					cardObject.GetComponent<CardMouseListener>().isOnField = true;
+					cardObject.transform.parent = selfField;
+				}
+				else
+                {
+					GameObject minionObject = Instantiate(fieldMinionPrefab);
+					minionObject.GetComponent<Renderer>().material = minionMaterials[minion.Name];
+					minionObject.GetComponent<MinionDataHolder>().minion = minion;
+					minionObject.transform.parent = enemyField; 
 				}
             }
         }
