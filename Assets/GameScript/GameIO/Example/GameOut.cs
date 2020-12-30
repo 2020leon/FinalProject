@@ -89,6 +89,9 @@ namespace Example
                         msg = "  - *You have no enough cash, you cannot launch " + chosenCard.Name + ".*";
                     }
                     break;
+                case ChoiceResponse.NotMyCard:
+                    msg = "  - *Please choose your card!*";
+                    break;
                 default:
                     if (chosenCard is Player) {
                         msg = "  - " + sender.Name + " chooses a player: " + chosenCard.Name;

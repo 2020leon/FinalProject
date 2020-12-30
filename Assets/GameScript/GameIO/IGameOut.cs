@@ -7,7 +7,8 @@ namespace FinalProject
         AttackAfterPuttingMinionsOnField,
         FieldIsFull,
         DisabledToBeAttacked,
-        LackOfCash
+        LackOfCash,
+        NotMyCard
     }
 
     interface IGameOut

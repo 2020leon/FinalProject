@@ -177,51 +177,56 @@ namespace FinalProject
         private async Task Act(Player other) {
             Card chosenCard;
             while ((chosenCard = await ChooseMyCard(other)) != null) {
-                if (chosenCard is Minion) {
-                    Minion chosenMinion = chosenCard as Minion;
-                    if (minionsOnField.Contains(chosenMinion)) {
-                        if (status != PlayerStatus.PuttingMinionsToField) {
-                            if (attackedMinions.Contains(chosenMinion)) {
-                                GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.Attacked);
-                            }
-                            else if (other.MinionsOnField.Count > 0 && !other.CanAnyMinionAttack) {
-                                GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.NoEnemyMinionCanBeAttacked);
-                            }
-                            else {
-                                GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.Success);
-                                await DoAttack(chosenMinion, other);
-                                if (status == PlayerStatus.Victory) {
-                                    return;
+                if (chosenCard.Player == this) {
+                    if (chosenCard is Minion) {
+                        Minion chosenMinion = chosenCard as Minion;
+                        if (minionsOnField.Contains(chosenMinion)) {
+                            if (status != PlayerStatus.PuttingMinionsToField) {
+                                if (attackedMinions.Contains(chosenMinion)) {
+                                    GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.Attacked);
+                                }
+                                else if (other.MinionsOnField.Count > 0 && !other.CanAnyMinionAttack) {
+                                    GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.NoEnemyMinionCanBeAttacked);
+                                }
+                                else {
+                                    GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.Success);
+                                    await DoAttack(chosenMinion, other);
+                                    if (status == PlayerStatus.Victory) {
+                                        return;
+                                    }
                                 }
                             }
+                            else { // cannot Attack
+                                GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.AttackAfterPuttingMinionsOnField);
+                            }
                         }
-                        else { // cannot Attack
-                            GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.AttackAfterPuttingMinionsOnField);
+                        else { // in hand
+                            if (chosenMinion.Cost + Inflation.ExtraCost * inflationTime <= cash && !IsFieldFull) {
+                                GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.Success);
+                                Status = PlayerStatus.PuttingMinionsToField;
+                                await PutMinionInHandToField(chosenMinion);
+                            }
+                            else if (IsFieldFull) {
+                                GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.FieldIsFull);
+                            }
+                            else {
+                                GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.LackOfCash);
+                            }
                         }
                     }
-                    else { // in hand
-                        if (chosenMinion.Cost + Inflation.ExtraCost * inflationTime <= cash && !IsFieldFull) {
-                            GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.Success);
-                            Status = PlayerStatus.PuttingMinionsToField;
-                            await PutMinionInHandToField(chosenMinion);
-                        }
-                        else if (IsFieldFull) {
-                            GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.FieldIsFull);
+                    else { // is Spell
+                        Spell chosenSpell = chosenCard as Spell;
+                        if (chosenSpell.Cost + Inflation.ExtraCost * inflationTime <= cash) {
+                            GameIO.GameOut.SendChoiceResponse(this, chosenSpell, ChoiceResponse.Success);
+                            await LaunchSpell(chosenSpell);
                         }
                         else {
-                            GameIO.GameOut.SendChoiceResponse(this, chosenMinion, ChoiceResponse.LackOfCash);
+                            GameIO.GameOut.SendChoiceResponse(this, chosenSpell, ChoiceResponse.LackOfCash);
                         }
                     }
                 }
-                else { // is Spell
-                    Spell chosenSpell = chosenCard as Spell;
-                    if (chosenSpell.Cost + Inflation.ExtraCost * inflationTime <= cash) {
-                        GameIO.GameOut.SendChoiceResponse(this, chosenSpell, ChoiceResponse.Success);
-                        await LaunchSpell(chosenSpell);
-                    }
-                    else {
-                        GameIO.GameOut.SendChoiceResponse(this, chosenSpell, ChoiceResponse.LackOfCash);
-                    }
+                else {
+                    GameIO.GameOut.SendChoiceResponse(this, chosenCard, ChoiceResponse.NotMyCard);
                 }
             }
             GameIO.GameOut.SendEndOfRoundSignal(this);
