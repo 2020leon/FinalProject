@@ -243,10 +243,14 @@ namespace FinalProject
                 Minion enemyMinion;
                 do {
                     enemyMinion = await ChooseEnemyHeadOrMinionOnField(other);
-                    if (!enemyMinion.IsEnabledToBeAttacked || (other.MinionsOnField.Count > 0 && enemyMinion is Player)) {
+                    if (!(other.MinionsOnField.Contains(enemyMinion) || enemyMinion == other)) {
+                        GameIO.GameOut.SendChoiceResponse(this, enemyMinion, ChoiceResponse.NotCardOnEnemyField);
+                    }
+                    else if (!enemyMinion.IsEnabledToBeAttacked || (other.MinionsOnField.Count > 0 && enemyMinion == other)) {
                         GameIO.GameOut.SendChoiceResponse(this, enemyMinion, ChoiceResponse.DisabledToBeAttacked);
                     }
-                } while (!enemyMinion.IsEnabledToBeAttacked || (other.MinionsOnField.Count > 0 && enemyMinion is Player));
+                    else break;
+                } while (true);
                 GameIO.GameOut.SendChoiceResponse(this, enemyMinion, ChoiceResponse.Success);
                 attacker.Attack(enemyMinion);
                 attackedMinions.Add(attacker);
@@ -321,7 +325,7 @@ namespace FinalProject
             }
             else {
                 if (other.MinionsOnField.Count == 0) {
-                    return this;
+                    return other;
                 }
                 else {
                     Random random = new Random();

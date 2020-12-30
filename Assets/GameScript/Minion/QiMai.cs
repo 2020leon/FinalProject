@@ -12,7 +12,10 @@ namespace FinalProject
             await base.GoOnField();
             Player enemy = Player.Game.GetMyEnemy(Player);
             if (!(Player.IsFieldFull || enemy.MinionsOnField.Count == 0)) {
-                Minion minion = await Player.ChooseEnemyMinionOnField(enemy);
+                Minion minion;
+                while (!enemy.MinionsOnField.Contains(minion = await Player.ChooseEnemyMinionOnField(enemy))) {
+                    GameIO.GameOut.SendChoiceResponse(Player, minion, ChoiceResponse.NotCardOnEnemyField);
+                }
                 GameIO.GameOut.SendChoiceResponse(Player, minion, ChoiceResponse.Success);
                 enemy.MinionsOnField.Remove(minion);
                 minion.RemoveFromField();

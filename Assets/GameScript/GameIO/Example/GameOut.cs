@@ -92,6 +92,9 @@ namespace Example
                 case ChoiceResponse.NotMyCard:
                     msg = "  - *Please choose your card!*";
                     break;
+                case ChoiceResponse.NotCardOnEnemyField:
+                    msg = "  - *Please choose a card of your enemy!*";
+                    break;
                 default:
                     if (chosenCard is Player) {
                         msg = "  - " + sender.Name + " chooses a player: " + chosenCard.Name;

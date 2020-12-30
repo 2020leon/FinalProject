@@ -15,7 +15,10 @@ namespace FinalProject
                 // output something
             }
             else {
-                Minion minion = await Player.ChooseEnemyMinionOnField(enemy);
+                Minion minion;
+                while (!enemy.MinionsOnField.Contains(minion = await Player.ChooseEnemyMinionOnField(enemy))) {
+                    GameIO.GameOut.SendChoiceResponse(Player, minion, ChoiceResponse.NotCardOnEnemyField);
+                }
                 GameIO.GameOut.SendChoiceResponse(Player, minion, ChoiceResponse.Success);
                 minion.Hp -= 5;
                 if (minion.IsDead) {

@@ -8,7 +8,8 @@ namespace FinalProject
         FieldIsFull,
         DisabledToBeAttacked,
         LackOfCash,
-        NotMyCard
+        NotMyCard,
+        NotCardOnEnemyField
     }
 
     interface IGameOut
