@@ -26,6 +26,7 @@ namespace FinalProject
                 }
                 if (CardInput == null)
                 {
+                    GiveUpInput = false;
                     return null;
                 }
                 Card target = CardInput;
