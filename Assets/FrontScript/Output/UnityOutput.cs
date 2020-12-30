@@ -43,11 +43,9 @@ namespace FinalProject
                     break;
                 case GameStatus.PlayersTurn:
                     Debug.Log("Players turn");
-                    GameState.UserControllable = true;
                     break;
                 case GameStatus.ComputersTurn:
                     Debug.Log("Computers turn");
-                    GameState.UserControllable = false;
                     break;
                 case GameStatus.PlayerWin:
                     Debug.Log("Player win");
