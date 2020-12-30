@@ -100,6 +100,14 @@ namespace FinalProject
 				GameObject cardObject = Instantiate(cardPrefab);
 				cardObject.GetComponent<Renderer>().material = materials[card.Name];
 				cardObject.GetComponent<CardDataHolder>().card = card;
+
+				//TODO: have to consider spell
+				if (card is Minion && player.IsUser())
+				{
+					cardObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + card.Cost.ToString());
+					cardObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Atk.ToString());
+					cardObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Hp.ToString());
+				}
 				cardObject.transform.parent = player.IsUser() ? handsArea : enemyHandsArea;
 
 				if (!player.IsUser())
