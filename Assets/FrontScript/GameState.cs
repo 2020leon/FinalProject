@@ -12,6 +12,7 @@ namespace FinalProject
 
         public static Card CardInput = null;
         public static Minion HeadOrMinion = null;
+        public static Minion Minion = null;
 
         public static bool GiveUpInput = false;
 
@@ -33,6 +34,8 @@ namespace FinalProject
                 Card target = CardInput;
                 UserInputNeeded = false;
                 CardInput = null;
+                HeadOrMinion = null;
+                Minion = null;
                 return target;
             });
         }
@@ -53,7 +56,33 @@ namespace FinalProject
                 }
                 Minion target = HeadOrMinion;
                 UserInputNeeded = false;
+                CardInput = null;
                 HeadOrMinion = null;
+                Minion = null;
+                return target;
+            });
+        }
+
+        public static Task<Minion> GetEnemyMinion()
+        {
+            UserInputNeeded = true;
+            return Task.Run(() =>
+            {
+                while (Minion == null && !GiveUpInput)
+                {
+                    ;
+                }
+                if (Minion == null)
+                {
+                    GiveUpInput = false;
+                    return null;
+                }
+                Minion target = Minion;
+                UserInputNeeded = false;
+                CardInput = null;
+                HeadOrMinion = null;
+                Minion = null;
+
                 return target;
             });
         }

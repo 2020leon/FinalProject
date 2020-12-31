@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace FinalProject
 {
-    public class MinionClickListener : MonoBehaviour
+    public class EnemyHeadClickedListener : MonoBehaviour
     {
+
         private void OnMouseDown()
         {
             if (GameState.UserInputNeeded)
             {
-                GameState.HeadOrMinion = gameObject.GetComponent<MinionDataHolder>().minion;
-                GameState.Minion = gameObject.GetComponent<MinionDataHolder>().minion;
+                //TODO: send enemy head
             }
         }
     }
