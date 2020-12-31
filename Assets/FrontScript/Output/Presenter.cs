@@ -27,7 +27,9 @@ namespace FinalProject
 		[SerializeField]
 		private Transform cashArea;
 		[SerializeField]
-		private Transform enemyCashArea;
+		private Image enemyCashNumber;
+		[SerializeField]
+		private Image userCashNumber;
 
 		[SerializeField]
 		private GameObject fieldMinionPrefab;
@@ -51,40 +53,17 @@ namespace FinalProject
 
 		private void UpdateCash()
         {
-			for (int i = 0; i < 5; i++)
+			userCashNumber.sprite = Resources.Load<Sprite>("數字/" + model.UserCash.ToString());
+			enemyCashNumber.sprite = Resources.Load<Sprite>("數字/" + model.EnemyCash.ToString());
+			for (int i = 0; i < 8; i++)
             {
 				if (i+1 <= model.UserCash)
                 {
-					GameObject cash = Instantiate(cashPrefab);
-					Vector3 targetPos = cashArea.GetChild(i).position;
-					Destroy(cashArea.GetChild(i).gameObject);
-					cash.transform.parent = cashArea;
-					cash.transform.position = targetPos;
+					 cashArea.GetChild(i).GetComponent<Image>().enabled = true;
 				}
 				else
                 {
-					GameObject empty = Instantiate(emptyCashPrefab);
-					Vector3 targetPos = cashArea.GetChild(i).position;
-					Destroy(cashArea.GetChild(i).gameObject);
-					empty.transform.parent = cashArea;
-					empty.transform.position = targetPos;
-				}
-
-				if (i+1 <= model.EnemyCash)
-                {
-					GameObject cash = Instantiate(cashPrefab);
-					Vector3 targetPos = enemyCashArea.GetChild(i).position;
-					Destroy(enemyCashArea.GetChild(i).gameObject);
-					cash.transform.parent = enemyCashArea;
-					cash.transform.position = targetPos;
-				}
-				else
-                {
-					GameObject empty = Instantiate(emptyCashPrefab);
-					Vector3 targetPos = enemyCashArea.GetChild(i).position;
-					Destroy(enemyCashArea.GetChild(i).gameObject);
-					empty.transform.parent = enemyCashArea;
-					empty.transform.position = targetPos;
+					cashArea.GetChild(i).GetComponent<Image>().enabled = false;
 				}
             }
         }
@@ -106,10 +85,10 @@ namespace FinalProject
 					cardObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + card.Cost.ToString());
 					if (card is Minion)
                     {
-						cardObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + card.Cost.ToString());
 						cardObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Atk.ToString());
 						cardObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Hp.ToString());
 					}
+					cardObject.transform.GetChild(3).gameObject.SetActive(true);
 				}
 
 				cardObject.transform.parent = player.IsUser() ? handsArea : enemyHandsArea;
