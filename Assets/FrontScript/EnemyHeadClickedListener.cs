@@ -11,7 +11,7 @@ namespace FinalProject
         {
             if (GameState.UserInputNeeded)
             {
-                //TODO: send enemy head
+                GameState.HeadOrMinion = GetComponent<EnemyHeadHolder>().enemy;
             }
         }
     }

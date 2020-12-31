@@ -468,6 +468,7 @@ MonoBehaviour:
   roundChangeAnimator: {fileID: 125942005}
   animationManager: {fileID: 1776530486}
   roundImage: {fileID: 125942006}
+  enemyHeadHolder: {fileID: 667375012}
   RoundNumber: 
   UserCash: 0
   EnemyCash: 0
@@ -989,8 +990,11 @@ GameObject:
   m_Component:
   - component: {fileID: 667375011}
   - component: {fileID: 667375010}
+  - component: {fileID: 667375013}
+  - component: {fileID: 667375012}
+  - component: {fileID: 667375014}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: EnemyHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1053,6 +1057,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &667375012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 667375009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f20a0746c3da41b9977a8107b960a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &667375013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 667375009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2b08965bf1c644e09d4f99e46b5d0a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &667375014
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 667375009}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.16, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &669456707
 Prefab:
   m_ObjectHideFlags: 0
@@ -2009,7 +2047,7 @@ GameObject:
   - component: {fileID: 1183635121}
   - component: {fileID: 1183635120}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: UserHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

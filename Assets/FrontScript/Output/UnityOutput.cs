@@ -14,8 +14,8 @@ namespace FinalProject
         private AnimationManager animationManager;
         [SerializeField]
         private Image roundImage;
-
-        private Game game;
+        [SerializeField]
+        private EnemyHeadHolder enemyHeadHolder;
 
         [HideInInspector]
         public Queue<KeyValuePair<Player, Card>> DrawnCards = new Queue<KeyValuePair<Player, Card>>();
@@ -30,6 +30,8 @@ namespace FinalProject
         public short UserCash = 0;
         [HideInInspector]
         public short EnemyCash = 0;
+
+        private Game game;
 
         public void SendAfterStatus(Game sender, GameStatus gameStatus)
         {
@@ -99,18 +101,26 @@ namespace FinalProject
 
         public void SendStartingPlayerAndRound(Player sender, int gameRound)
         {
-            
+            if (!sender.IsUser())
+            {
+                enemyHeadHolder.enemy = sender;
+            }
+            else
+            {
+                enemyHeadHolder.enemy = game.GetMyEnemy(sender);
+            }
         }
 
         public void SendAfterStatus(Player sender, PlayerStatus playerStatus)
         {
             //TODO: not implemented
+            Debug.Log("After status" + playerStatus.ToString());
         }
 
         public void SendChoiceResponse(Player sender, Card chosenCard, ChoiceResponse response)
         {
-
             //TODO: not implemented
+            Debug.Log("Choice response" + chosenCard.ToString() + response.ToString());
         }
 
         public void SendGoOnFieldSignal(Minion sender)
