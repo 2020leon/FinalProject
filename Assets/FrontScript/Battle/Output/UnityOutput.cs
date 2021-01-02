@@ -41,6 +41,10 @@ namespace FinalProject
         public short UserCash = 0;
         [HideInInspector]
         public short EnemyCash = 0;
+        [HideInInspector]
+        public bool PlayerInflation = false;
+        [HideInInspector]
+        public bool EnemyInflation = false;
 
         private Game game;
 
@@ -165,7 +169,28 @@ namespace FinalProject
 
         public void SendAfterIsInflation(Player sender, short inflationTime)
         {
-            //TODO: not implemented
+            if (inflationTime != 0)
+            {
+                if (sender.IsUser())
+                {
+                    PlayerInflation = true;
+                }
+                else
+                {
+                    EnemyInflation = true;
+                }
+            }
+            else
+            {
+                if (sender.IsUser())
+                {
+                    PlayerInflation = false;
+                }
+                else
+                {
+                    EnemyInflation = false;
+                }
+            }
         }
 
         public void SendAfterWalletSize(Player sender, short walletSize)

@@ -52,6 +52,11 @@ namespace FinalProject
 		[SerializeField]
 		private Transform endTurnButton;
 
+		[SerializeField]
+		private GameObject playerInflation;
+		[SerializeField]
+		private GameObject enemyInflation;
+
 		private List<GameObject> cardsObjectInHand = new List<GameObject>();
 		private List<GameObject> minionsOnField = new List<GameObject>();
 
@@ -65,6 +70,7 @@ namespace FinalProject
 			UpdateFieldCard();
 			UpdateStatus();
 			SetLight();
+			UpdateInflation();
 		}
 
 		private void UpdateCash()
@@ -320,8 +326,13 @@ namespace FinalProject
 				});
 
 				minionsOnField.Remove(needToRemove);
-				//Destroy(needToRemove);
             }
+        }
+
+		private void UpdateInflation()
+        {
+			enemyInflation.SetActive(model.EnemyInflation);
+			playerInflation.SetActive(model.PlayerInflation);
         }
 	}
 }
