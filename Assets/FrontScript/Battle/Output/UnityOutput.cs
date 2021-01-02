@@ -8,9 +8,15 @@ namespace FinalProject
 {
     class UnityOutput : MonoBehaviour, IGameOut
     {
+        public AnimationManager animationManager;
         [SerializeField]
         private Animator roundChangeAnimator;
-        public AnimationManager animationManager;
+        [SerializeField]
+        private Animator winAnimator;
+        [SerializeField]
+        private Animator loseAnimator;
+        [SerializeField]
+        private Animator tieAnimator;
         [SerializeField]
         private Image roundImage;
         [SerializeField]
@@ -56,12 +62,15 @@ namespace FinalProject
                     break;
                 case GameStatus.PlayerWin:
                     Debug.Log("Player win");
+                    animationManager.EnqueueAnimator(winAnimator);
                     break;
                 case GameStatus.ComputerWin:
                     Debug.Log("Computer win");
+                    animationManager.EnqueueAnimator(loseAnimator);
                     break;
                 case GameStatus.Tie:
                     Debug.Log("tie");
+                    animationManager.EnqueueAnimator(tieAnimator);
                     break;
             }
         }
@@ -209,7 +218,7 @@ namespace FinalProject
 
         public void SendPlayerDieSignal(Player sender)
         {
-            //TODO: not implemented
+
         }
 
         public void SendRemainingMasks(ShiZhong sender, short remainingMasks)
