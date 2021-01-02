@@ -148,7 +148,7 @@ namespace FinalProject
             MinionsOnField.Enqueue(new KeyValuePair<Player, Minion>(sender.Player, sender));
             if (sender is ShiZhong)
             {
-                ShiZhongMaskDictionary.Add((ShiZhong)sender, 3);
+                ShiZhongMaskDictionary.Add((ShiZhong)sender, (sender as ShiZhong).Mask);
             }
         }
 

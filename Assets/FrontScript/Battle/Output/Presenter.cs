@@ -199,9 +199,13 @@ namespace FinalProject
 				var card = cardDataHolder != null ? cardDataHolder.card : null;
 				var player = card != null ? card.Player : null;
 				if (player != null && player.IsUser()) {
-					cardObject.transform.GetChild(1).GetChild(3).gameObject.SetActive(
+					var light = cardObject.transform.GetChild(1).GetChild(3);
+					light.gameObject.SetActive(
 						card.Cost + Inflation.ExtraCost * player.InflationTime <= player.Cash && GameState.InputState == InputState.GetCardInput && (card is Spell || !player.IsFieldFull)
 					);
+					var color = light.GetComponent<SpriteRenderer>().color;
+					color.a = (Mathf.Sin(2.5f * Time.time) + 3) / 4f;
+					light.GetComponent<SpriteRenderer>().color = color;
 				}
 			}
 			foreach (var cardObject in minionsOnField) {
@@ -210,23 +214,50 @@ namespace FinalProject
 				var minion = cardDataHolder != null ? cardDataHolder.card as Minion : minionDataHolder.minion;
 				var player = minion != null ? minion.Player : null;
 				if (player != null) {
+					var light = cardObject.transform.GetChild(1).GetChild(3);
 					if (player.IsUser()) {
-						cardObject.transform.GetChild(1).GetChild(3).gameObject.SetActive(
+						light.gameObject.SetActive(
 							player.Status == PlayerStatus.Acting && !player.AttackedMinions.Contains(minion) && GameState.InputState == InputState.GetCardInput && (player.Game.GetMyEnemy(player).CanAnyMinionAttack || player.Game.GetMyEnemy(player).MinionsOnField.Count == 0)
 						);
 					}
 					else {
-						cardObject.transform.GetChild(1).GetChild(3).gameObject.SetActive(
+						light.gameObject.SetActive(
 							(GameState.InputState == InputState.GetEnemyHeadOrMinion && minion.IsEnabledToBeAttacked) || (GameState.InputState == InputState.GetEnemyMinion)
 						);
 					}
+					var color = light.GetComponent<SpriteRenderer>().color;
+					color.a = (Mathf.Sin(2.5f * Time.time) + 3) / 4f;
+					light.GetComponent<SpriteRenderer>().color = color;
 				}
 			}
 			if (GameState.InputState == InputState.GetCardInput) {
-				endTurnButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("素材/EndTurnGreenButton");
+				var image = endTurnButton.GetComponent<Image>();
+				if (image.sprite.name != "EndTurnGreenButton") {
+					image.sprite = Resources.Load<Sprite>($"素材/EndTurnGreenButton");
+				}
+				else {
+					var color = image.color;
+					color.a = (Mathf.Sin(2.5f * Time.time) + 1) / 2f;
+					image.color = color;
+				}
 			}
 			else {
 				endTurnButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("素材/EndTurnButton");
+			}
+			var r = 110f;
+			var g = 256f;
+			var b = 0f;
+			if (GameState.InputState == InputState.GetEnemyHeadOrMinion && (enemyHeadHolder.Enemy as Player).MinionsOnField.Count == 0) {
+				var color = enemyHPImage.color;
+				color.r = Mathf.Sin(2.5f * Time.time) / 2f * (1 - r / 256f) + 1 - (1 - r / 256f) / 2f;
+				color.g = Mathf.Sin(2.5f * Time.time) / 2f * (1 - g / 256f) + 1 - (1 - g / 256f) / 2f;
+				color.b = Mathf.Sin(2.5f * Time.time) / 2f * (1 - b / 256f) + 1 - (1 - b / 256f) / 2f;
+				enemyHPImage.color = color;
+			}
+			else {
+				var color = enemyHPImage.color;
+				color.r = color.g = color.b = 1;
+				enemyHPImage.color = color;
 			}
 		}
 
