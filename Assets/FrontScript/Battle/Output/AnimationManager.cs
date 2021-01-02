@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimationManager : MonoBehaviour {
-
 	public static bool currentAnimationEnded = true;
 	public Queue<Animator> animators = new Queue<Animator>();
 
@@ -19,7 +18,6 @@ public class AnimationManager : MonoBehaviour {
 			if (animators.Count > 0)
 			{
 				Animator animator = animators.Dequeue();
-
 				AnimationEvent animEvent = new AnimationEvent();
 				animEvent.functionName = "onAnimationFinished";
 				AnimationClip clip = animator.runtimeAnimatorController.animationClips[0];
@@ -40,5 +38,10 @@ public class AnimationManager : MonoBehaviour {
 			currentAnimationEnded = true;
 			Destroy(this);
 		}
-	}
+
+        private void OnDestroy()
+        {
+			currentAnimationEnded = true;
+        }
+    }
 }

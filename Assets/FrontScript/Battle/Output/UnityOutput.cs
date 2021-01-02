@@ -10,8 +10,7 @@ namespace FinalProject
     {
         [SerializeField]
         private Animator roundChangeAnimator;
-        [SerializeField]
-        private AnimationManager animationManager;
+        public AnimationManager animationManager;
         [SerializeField]
         private Image roundImage;
         [SerializeField]

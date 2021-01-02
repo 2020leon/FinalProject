@@ -412,7 +412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 201465543}
-  cardPrefab: {fileID: 1472928632847592, guid: add9d2df292804e20b072c94f68b9e11, type: 2}
+  cardPrefab: {fileID: 1434963214057366, guid: 73361bb79c78d4d10a62a684398bcd19, type: 2}
   handsArea: {fileID: 744530426}
   enemyHandsArea: {fileID: 1198093823}
   materials: {fileID: 778379891}
@@ -422,7 +422,7 @@ MonoBehaviour:
   cashArea: {fileID: 2074067070}
   enemyCashNumber: {fileID: 1908561782}
   userCashNumber: {fileID: 1026285293}
-  fieldMinionPrefab: {fileID: 1846598730120796, guid: a1adec2118c9c45c9919316a56fc9d23,
+  fieldMinionPrefab: {fileID: 1680541010214990, guid: 00bdff44ed9d04cfe9b7d934259ecd53,
     type: 2}
   selfField: {fileID: 1424961340}
   enemyField: {fileID: 249210466}
