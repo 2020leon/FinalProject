@@ -58,10 +58,10 @@ namespace FinalProject
 			UpdateCash();
 			AddDrawnCard();
 			RemoveHandCard();
-			SetLight();
 			RemoveFieldMinion();
 			UpdateFieldCard();
 			UpdateStatus();
+			SetLight();
 		}
 
 		private void UpdateCash()
@@ -129,31 +129,6 @@ namespace FinalProject
 			}
 		}
 
-		private void SetLight() {
-			foreach (var cardObject in cardsObjectInHand) {
-				var cardDataHolder = cardObject.GetComponent<CardDataHolder>();
-				var card = cardDataHolder != null ? cardDataHolder.card : null;
-				var player = card != null ? card.Player : null;
-				if (player != null && player.IsUser()) {
-					cardObject.transform.GetChild(3).gameObject.SetActive(card.Cost <= player.Cash && GameState.InputState == InputState.GetCardInput);
-				}
-			}
-			foreach (var cardObject in minionsOnField) {
-				var cardDataHolder = cardObject.GetComponent<CardDataHolder>();
-				var minionDataHolder = cardObject.GetComponent<MinionDataHolder>();
-				var minion = cardDataHolder != null ? cardDataHolder.card as Minion : minionDataHolder.minion;
-				var player = minion != null ? minion.Player : null;
-				if (player != null) {
-					if (player.IsUser()) {
-						cardObject.transform.GetChild(3).gameObject.SetActive(player.Status == PlayerStatus.Acting && !player.AttackedMinions.Contains(minion) && GameState.InputState == InputState.GetCardInput);
-					}
-					else {
-						//TODO: cardObject.transform.GetChild(3).gameObject.SetActive();
-					}
-				}
-			}
-		}
-
 		private void UpdateFieldCard()
 		{
 			while (model.MinionsOnField.Count > 0)
@@ -193,7 +168,7 @@ namespace FinalProject
 
 					if (minion is ShiZhong)
 					{
-						minionObject.transform.GetChild(3).gameObject.SetActive(true);
+						minionObject.transform.GetChild(4).gameObject.SetActive(true);
 					}
 
 					minionsOnField.Add(minionObject);
@@ -209,6 +184,37 @@ namespace FinalProject
 			UpdateEnemyHP();
 		}
 
+		private void SetLight() {
+			foreach (var cardObject in cardsObjectInHand) {
+				var cardDataHolder = cardObject.GetComponent<CardDataHolder>();
+				var card = cardDataHolder != null ? cardDataHolder.card : null;
+				var player = card != null ? card.Player : null;
+				if (player != null && player.IsUser()) {
+					cardObject.transform.GetChild(3).gameObject.SetActive(
+						card.Cost + Inflation.ExtraCost * player.InflationTime <= player.Cash && GameState.InputState == InputState.GetCardInput && (card is Spell || !player.IsFieldFull)
+					);
+				}
+			}
+			foreach (var cardObject in minionsOnField) {
+				var cardDataHolder = cardObject.GetComponent<CardDataHolder>();
+				var minionDataHolder = cardObject.GetComponent<MinionDataHolder>();
+				var minion = cardDataHolder != null ? cardDataHolder.card as Minion : minionDataHolder.minion;
+				var player = minion != null ? minion.Player : null;
+				if (player != null) {
+					if (player.IsUser()) {
+						cardObject.transform.GetChild(3).gameObject.SetActive(
+							player.Status == PlayerStatus.Acting && !player.AttackedMinions.Contains(minion) && GameState.InputState == InputState.GetCardInput && player.Game.GetMyEnemy(player).CanAnyMinionAttack
+						);
+					}
+					else {
+						cardObject.transform.GetChild(3).gameObject.SetActive(
+							(GameState.InputState == InputState.GetEnemyHeadOrMinion && minion.IsEnabledToBeAttacked) || (GameState.InputState == InputState.GetEnemyMinion)
+						);
+					}
+				}
+			}
+		}
+
 		private void UpdateUserFieldStatus()
 		{
 			for (int i = 0; i < selfField.childCount; i++)
@@ -220,7 +226,8 @@ namespace FinalProject
                 child.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
 				if (minion is ShiZhong)
                 {
-					short maskNumber = model.ShiZhongMaskDictionary[(ShiZhong)minion];
+					short maskNumber = -1;
+					model.ShiZhongMaskDictionary.TryGetValue((ShiZhong)minion, out maskNumber);
 					if (maskNumber > 0)
                     {
 						child.GetChild(4).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + maskNumber);
@@ -246,14 +253,15 @@ namespace FinalProject
 
 				if (minion is ShiZhong)
 				{
-					short maskNumber = model.ShiZhongMaskDictionary[(ShiZhong)minion];
+					short maskNumber = -1;
+					model.ShiZhongMaskDictionary.TryGetValue((ShiZhong)minion, out maskNumber);
 					if (maskNumber > 0)
 					{
-						child.GetChild(3).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + maskNumber);
+						child.GetChild(4).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + maskNumber);
 					}
 					else
 					{
-						child.GetChild(3).gameObject.SetActive(false);
+						child.GetChild(4).gameObject.SetActive(false);
 						model.ShiZhongMaskDictionary.Remove((ShiZhong)minion);
 					}
 				}

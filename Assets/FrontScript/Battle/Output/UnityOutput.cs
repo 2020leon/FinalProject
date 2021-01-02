@@ -127,7 +127,7 @@ namespace FinalProject
 
         public void SendChoiceResponse(Player sender, Card chosenCard, ChoiceResponse response)
         {
-            
+            Debug.Log("Choice Response: " + response.ToString());
         }
 
         public void SendGoOnFieldSignal(Minion sender)
