@@ -108,7 +108,7 @@ namespace FinalProject
 
 				if (!player.IsUser())
 				{
-					cardObject.GetComponent<Renderer>().material = null;
+					cardObject.GetComponent<Renderer>().material = materials["卡背"];
 					Destroy(cardObject.GetComponent<CardMouseListener>());
 				}
 				cardsObjectInHand.Add(cardObject);

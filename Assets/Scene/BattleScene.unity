@@ -1592,6 +1592,8 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: 4e0916bf08d884235a5020be886d6de4, type: 2}
   - Name: "\u9AD8\u5609\u745C"
     Material: {fileID: 2100000, guid: b25d65fd25624444b966406bf1803eb3, type: 2}
+  - Name: "\u5361\u80CC"
+    Material: {fileID: 2100000, guid: 01d51a56af09f4a6e99a8df52fb6e0e6, type: 2}
 --- !u!224 &825818448 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224746170930402208, guid: db3494b097c914e879c9bab09b888bc4,
@@ -2149,7 +2151,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.86, y: 1.63}
+  m_AnchoredPosition: {x: -0.75, y: 2.1}
   m_SizeDelta: {x: 100, y: 0.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1198093825
