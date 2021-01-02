@@ -18,6 +18,8 @@ namespace FinalProject
         [SerializeField]
         private Animator tieAnimator;
         [SerializeField]
+        private Animator endAnimator;
+        [SerializeField]
         private Image roundImage;
         [SerializeField]
         private EnemyHeadHolder enemyHeadHolder;
@@ -44,6 +46,9 @@ namespace FinalProject
         [HideInInspector]
         public bool EnemyInflation = false;
 
+        [SerializeField]
+        private GameObject EndImage;
+
         private Game game;
 
         public void SendAfterStatus(Game sender, GameStatus gameStatus)
@@ -64,15 +69,21 @@ namespace FinalProject
                     break;
                 case GameStatus.PlayerWin:
                     Debug.Log("Player win");
+                    EndImage.SetActive(true);
                     animationManager.EnqueueAnimator(winAnimator);
+                    animationManager.EnqueueAnimator(endAnimator);
                     break;
                 case GameStatus.ComputerWin:
                     Debug.Log("Computer win");
+                    EndImage.SetActive(true);
                     animationManager.EnqueueAnimator(loseAnimator);
+                    animationManager.EnqueueAnimator(endAnimator);
                     break;
                 case GameStatus.Tie:
                     Debug.Log("tie");
+                    EndImage.SetActive(true);
                     animationManager.EnqueueAnimator(tieAnimator);
+                    animationManager.EnqueueAnimator(endAnimator);
                     break;
             }
         }
