@@ -91,7 +91,7 @@ namespace FinalProject
 					cardObject.transform.GetChild(3).gameObject.SetActive(true);
 				}
 
-				cardObject.transform.parent = player.IsUser() ? handsArea : enemyHandsArea;
+				cardObject.transform.SetParent(player.IsUser() ? handsArea : enemyHandsArea);
 
 				if (!player.IsUser())
 				{
@@ -134,7 +134,7 @@ namespace FinalProject
 					cardObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + card.Cost.ToString());
 					cardObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Atk.ToString());
 					cardObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Hp.ToString());
-					cardObject.transform.parent = selfField;
+					cardObject.transform.SetParent(selfField);
 				}
 				else
                 {
@@ -144,7 +144,7 @@ namespace FinalProject
 					minionObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
 					minionObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
 					minionObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
-					minionObject.transform.parent = enemyField; 
+					minionObject.transform.SetParent(enemyField); 
 				}
             }
         }
