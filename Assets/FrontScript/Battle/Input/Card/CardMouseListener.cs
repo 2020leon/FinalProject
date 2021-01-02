@@ -7,6 +7,18 @@ namespace FinalProject
     public class CardMouseListener : MonoBehaviour {
 
         public bool isOnField = false;
+        private short delta;
+
+        private void Start() {
+            delta = 0;
+        }
+
+        private void Update() {
+            if (!isOnField && delta != 0) {
+                gameObject.transform.position += Vector3.up * .0625f * (delta > 0 ? 1 : -1);
+                delta += (short)(delta > 0 ? -1 : 1);
+            }
+        }
 
         private void OnMouseDown()
         {
@@ -18,17 +30,17 @@ namespace FinalProject
 
         private void OnMouseEnter()
         {
-            if (!isOnField)
+            if (!isOnField && delta <= 0)
             {
-                gameObject.transform.position += Vector3.up * 0.3f;
+                delta += 4;
             }
         }
 
         private void OnMouseExit()
         {
-            if (!isOnField)
+            if (!isOnField && delta >= 0)
             {
-                gameObject.transform.position += Vector3.down * 0.3f;
+                delta += -4;
             }
         }
     }
