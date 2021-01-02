@@ -25,6 +25,8 @@ namespace FinalProject
         public Queue<Card> RemoveFromHandCards = new Queue<Card>();
         [HideInInspector]
         public Queue<KeyValuePair<Player, Minion>> MinionsOnField = new Queue<KeyValuePair<Player, Minion>>();
+        [HideInInspector]
+        public Queue<Minion> RemoveFromFieldMinions = new Queue<Minion>();
 
         [HideInInspector]
         public string RoundNumber = string.Empty;
@@ -123,8 +125,7 @@ namespace FinalProject
 
         public void SendChoiceResponse(Player sender, Card chosenCard, ChoiceResponse response)
         {
-            //TODO: not implemented
-            Debug.Log("Choice response" + chosenCard.ToString() + response.ToString());
+            
         }
 
         public void SendGoOnFieldSignal(Minion sender)
@@ -179,7 +180,6 @@ namespace FinalProject
 
         public void SendAfterAtk(Minion sender, short atk)
         {
-            //TODO: not implemented
         }
 
         public void SendAfterIsEnabledToBeAttacked(Minion sender, bool isEnabledToBeAttacked)
@@ -194,7 +194,7 @@ namespace FinalProject
 
         public void SendRemoveFromFieldSignal(Minion sender)
         {
-            //TODO: not implemented
+            RemoveFromFieldMinions.Enqueue(sender);
         }
 
         public void SendMinionDieSignal(Minion sender)

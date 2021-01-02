@@ -50,6 +50,7 @@ namespace FinalProject
 		private SpriteRenderer playerHPImage;
 
 		private List<GameObject> cardsObjectInHand = new List<GameObject>();
+		private List<GameObject> minionsOnField = new List<GameObject>();
 
 		// Update is called once per frame
 		void Update()
@@ -57,8 +58,9 @@ namespace FinalProject
 			UpdateCash();
 			AddDrawnCard();
 			RemoveHandCard();
+			RemoveFieldMinion();
 			UpdateFieldCard();
-			UpdateHP();
+			UpdateStatus();
 		}
 
 		private void UpdateCash()
@@ -145,6 +147,8 @@ namespace FinalProject
 					cardObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Atk.ToString());
 					cardObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Hp.ToString());
 					cardObject.transform.SetParent(selfField);
+
+					minionsOnField.Add(cardObject);
 				}
 				else
 				{
@@ -154,35 +158,41 @@ namespace FinalProject
 					minionObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
 					minionObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
 					minionObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
-					minionObject.transform.SetParent(enemyField); 
+					minionObject.transform.SetParent(enemyField);
+
+					minionsOnField.Add(minionObject);
 				}
 			}
 		}
 
-		private void UpdateHP()
+		private void UpdateStatus()
 		{
-			UpdateUserFieldHP();
-			UpdateEnemyFieldHP();
+			UpdateUserFieldStatus();
+			UpdateEnemyFieldStatus();
 			UpdatePlayerHP();
 			UpdateEnemyHP();
 		}
 
-		private void UpdateUserFieldHP()
+		private void UpdateUserFieldStatus()
 		{
 			for (int i = 0; i < selfField.childCount; i++)
 			{
 				Transform child = selfField.GetChild(i);
 				Minion minion = (Minion)child.GetComponent<CardDataHolder>().card;
-				child.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
+				child.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
+				child.GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
+                child.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
 			}
 		}
 
-		private void UpdateEnemyFieldHP()
+		private void UpdateEnemyFieldStatus()
 		{
 			for (int i = 0; i < enemyField.childCount; i++)
 			{
 				Transform child = enemyField.GetChild(i);
 				Minion minion = child.GetComponent<MinionDataHolder>().minion;
+				child.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
+				child.GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
 				child.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
 			}
 		}
@@ -202,5 +212,34 @@ namespace FinalProject
 				enemyHPImage.sprite = Resources.Load<Sprite>("數字/" + enemyHeadHolder.Enemy.Hp.ToString());
 			}
 		}
+
+		private void RemoveFieldMinion()
+        {
+            while (model.RemoveFromFieldMinions.Count > 0)
+            {
+                Minion target = model.RemoveFromFieldMinions.Dequeue();
+				GameObject needToRemove = minionsOnField.Find((gameObject) =>
+				{
+					if (gameObject.transform.IsChildOf(selfField))
+					{
+						if (gameObject.GetComponent<CardDataHolder>().card == target)
+						{
+							return true;
+						}
+					}
+					else
+					{
+						if (gameObject.GetComponent<MinionDataHolder>().minion == target)
+						{
+							return true;
+						}
+					}
+					return false;
+				});
+
+				minionsOnField.Remove(needToRemove);
+				Destroy(needToRemove);
+            }
+        }
 	}
 }
