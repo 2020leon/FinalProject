@@ -40,6 +40,15 @@ namespace FinalProject
 		[SerializeField]
 		private MaterialMap minionMaterials;
 
+		[SerializeField]
+		private EnemyHeadHolder enemyHeadHolder;
+		[SerializeField]
+		private PlayerHeadHolder playerHeadHolder;
+		[SerializeField]
+		private SpriteRenderer enemyHPImage;
+		[SerializeField]
+		private SpriteRenderer playerHPImage;
+
 		private List<GameObject> cardsObjectInHand = new List<GameObject>();
 
 		// Update is called once per frame
@@ -49,27 +58,28 @@ namespace FinalProject
 			AddDrawnCard();
 			RemoveHandCard();
 			UpdateFieldCard();
+			UpdateHP();
 		}
 
 		private void UpdateCash()
-        {
+		{
 			userCashNumber.sprite = Resources.Load<Sprite>("數字/" + model.UserCash.ToString());
 			enemyCashNumber.sprite = Resources.Load<Sprite>("數字/" + model.EnemyCash.ToString());
 			for (int i = 0; i < 8; i++)
-            {
-				if (i+1 <= model.UserCash)
-                {
-					 cashArea.GetChild(i).GetComponent<Image>().enabled = true;
+			{
+				if (i + 1 <= model.UserCash)
+				{
+					cashArea.GetChild(i).GetComponent<Image>().enabled = true;
 				}
 				else
-                {
+				{
 					cashArea.GetChild(i).GetComponent<Image>().enabled = false;
 				}
-            }
-        }
+			}
+		}
 
 		private void AddDrawnCard()
-        {
+		{
 			while (model.DrawnCards.Count > 0)
 			{
 				KeyValuePair<Player, Card> pair = model.DrawnCards.Dequeue();
@@ -81,10 +91,10 @@ namespace FinalProject
 				cardObject.GetComponent<CardDataHolder>().card = card;
 
 				if (player.IsUser())
-                {
+				{
 					cardObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + card.Cost.ToString());
 					if (card is Minion)
-                    {
+					{
 						cardObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Atk.ToString());
 						cardObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Hp.ToString());
 					}
@@ -103,9 +113,9 @@ namespace FinalProject
 		}
 
 		private void RemoveHandCard()
-        {
+		{
 			while (model.RemoveFromHandCards.Count > 0)
-            {
+			{
 				Card c = model.RemoveFromHandCards.Dequeue();
 				GameObject cardObject = cardsObjectInHand.Find((gameObject) =>
 				{
@@ -113,19 +123,19 @@ namespace FinalProject
 				});
 				cardsObjectInHand.Remove(cardObject);
 				Destroy(cardObject);
-            }
-        }
+			}
+		}
 
 		private void UpdateFieldCard()
-        {
+		{
 			while (model.MinionsOnField.Count > 0)
-            {
+			{
 				KeyValuePair<Player, Minion> pair = model.MinionsOnField.Dequeue();
 				Player player = pair.Key;
 				Minion minion = pair.Value;
 
 				if (player.IsUser())
-                {
+				{
 					GameObject cardObject = Instantiate(cardPrefab);
 					cardObject.GetComponent<Renderer>().material = materials[minion.Name];
 					cardObject.GetComponent<CardDataHolder>().card = minion;
@@ -137,16 +147,60 @@ namespace FinalProject
 					cardObject.transform.parent = selfField;
 				}
 				else
-                {
+				{
 					GameObject minionObject = Instantiate(fieldMinionPrefab);
 					minionObject.GetComponent<Renderer>().material = minionMaterials[minion.Name];
 					minionObject.GetComponent<MinionDataHolder>().minion = minion;
 					minionObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
 					minionObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
 					minionObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
-					minionObject.transform.parent = enemyField; 
+					minionObject.transform.parent = enemyField;
 				}
-            }
-        }
+			}
+		}
+
+		private void UpdateHP()
+		{
+			UpdateUserFieldHP();
+			UpdateEnemyFieldHP();
+			UpdatePlayerHP();
+			UpdateEnemyHP();
+		}
+
+		private void UpdateUserFieldHP()
+		{
+			for (int i = 0; i < selfField.childCount; i++)
+			{
+				Transform child = selfField.GetChild(i);
+				Minion minion = (Minion)child.GetComponent<CardDataHolder>().card;
+				child.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
+			}
+		}
+
+		private void UpdateEnemyFieldHP()
+		{
+			for (int i = 0; i < enemyField.childCount; i++)
+			{
+				Transform child = enemyField.GetChild(i);
+				Minion minion = child.GetComponent<MinionDataHolder>().minion;
+				child.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
+			}
+		}
+
+		private void UpdatePlayerHP()
+		{
+			if (playerHeadHolder.Player != null)
+			{
+				playerHPImage.sprite = Resources.Load<Sprite>("數字/" + playerHeadHolder.Player.Hp.ToString());
+			}
+		}
+
+		private void UpdateEnemyHP()
+		{
+			if (enemyHeadHolder.Enemy != null)
+			{
+				enemyHPImage.sprite = Resources.Load<Sprite>("數字/" + enemyHeadHolder.Enemy.Hp.ToString());
+			}
+		}
 	}
 }

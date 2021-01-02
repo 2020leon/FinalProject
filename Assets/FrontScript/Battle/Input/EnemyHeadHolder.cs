@@ -6,6 +6,6 @@ namespace FinalProject
 {
     class EnemyHeadHolder : MonoBehaviour
     {
-        public Minion enemy = null;
+        public Minion Enemy = null;
     }
 }

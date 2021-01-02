@@ -16,13 +16,15 @@ namespace FinalProject
         private Image roundImage;
         [SerializeField]
         private EnemyHeadHolder enemyHeadHolder;
+        [SerializeField]
+        private PlayerHeadHolder playerHeadHolder;
 
         [HideInInspector]
         public Queue<KeyValuePair<Player, Card>> DrawnCards = new Queue<KeyValuePair<Player, Card>>();
         [HideInInspector]
         public Queue<Card> RemoveFromHandCards = new Queue<Card>();
         [HideInInspector]
-        public Queue<KeyValuePair<Player, Minion>> MinionsOnField = new Queue<KeyValuePair<Player, Minion>>(); 
+        public Queue<KeyValuePair<Player, Minion>> MinionsOnField = new Queue<KeyValuePair<Player, Minion>>();
 
         [HideInInspector]
         public string RoundNumber = string.Empty;
@@ -103,11 +105,13 @@ namespace FinalProject
         {
             if (!sender.IsUser())
             {
-                enemyHeadHolder.enemy = sender;
+                enemyHeadHolder.Enemy = sender;
+                playerHeadHolder.Player = game.GetMyEnemy(sender);
             }
             else
             {
-                enemyHeadHolder.enemy = game.GetMyEnemy(sender);
+                enemyHeadHolder.Enemy = game.GetMyEnemy(sender);
+                playerHeadHolder.Player = sender;
             }
         }
 
@@ -171,7 +175,6 @@ namespace FinalProject
 
         public void SendAfterHp(Minion sender, short hp)
         {
-            //TODO: not implemented
         }
 
         public void SendAfterAtk(Minion sender, short atk)
