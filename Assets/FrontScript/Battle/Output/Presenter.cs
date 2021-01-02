@@ -49,6 +49,9 @@ namespace FinalProject
 		[SerializeField]
 		private SpriteRenderer playerHPImage;
 
+		[SerializeField]
+		private Transform endTurnButton;
+
 		private List<GameObject> cardsObjectInHand = new List<GameObject>();
 		private List<GameObject> minionsOnField = new List<GameObject>();
 
@@ -212,6 +215,12 @@ namespace FinalProject
 						);
 					}
 				}
+			}
+			if (GameState.InputState == InputState.GetCardInput) {
+				endTurnButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("素材/EndTurnGreenButton");
+			}
+			else {
+				endTurnButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("素材/EndTurnButton");
 			}
 		}
 
