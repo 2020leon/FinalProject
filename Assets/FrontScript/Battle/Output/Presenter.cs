@@ -58,6 +58,7 @@ namespace FinalProject
 			UpdateCash();
 			AddDrawnCard();
 			RemoveHandCard();
+			SetLight();
 			RemoveFieldMinion();
 			UpdateFieldCard();
 			UpdateStatus();
@@ -125,6 +126,31 @@ namespace FinalProject
 				});
 				cardsObjectInHand.Remove(cardObject);
 				Destroy(cardObject);
+			}
+		}
+
+		private void SetLight() {
+			foreach (var cardObject in cardsObjectInHand) {
+				var cardDataHolder = cardObject.GetComponent<CardDataHolder>();
+				var card = cardDataHolder != null ? cardDataHolder.card : null;
+				var player = card != null ? card.Player : null;
+				if (player != null && player.IsUser()) {
+					cardObject.transform.GetChild(3).gameObject.SetActive(card.Cost <= player.Cash && GameState.InputState == InputState.GetCardInput);
+				}
+			}
+			foreach (var cardObject in minionsOnField) {
+				var cardDataHolder = cardObject.GetComponent<CardDataHolder>();
+				var minionDataHolder = cardObject.GetComponent<MinionDataHolder>();
+				var minion = cardDataHolder != null ? cardDataHolder.card as Minion : minionDataHolder.minion;
+				var player = minion != null ? minion.Player : null;
+				if (player != null) {
+					if (player.IsUser()) {
+						cardObject.transform.GetChild(3).gameObject.SetActive(player.Status == PlayerStatus.Acting && !player.AttackedMinions.Contains(minion) && GameState.InputState == InputState.GetCardInput);
+					}
+					else {
+						//TODO: cardObject.transform.GetChild(3).gameObject.SetActive();
+					}
+				}
 			}
 		}
 

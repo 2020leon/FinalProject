@@ -6,6 +6,11 @@ using UnityEngine;
 
 namespace FinalProject
 {
+    enum InputState
+    {
+        Ready, GetCardInput, GetEnemyHeadOrMinion, GetEnemyMinion
+    }
+
     class GameState: MonoBehaviour
     {
         public static bool UserInputNeeded = false;
@@ -16,8 +21,11 @@ namespace FinalProject
 
         public static bool GiveUpInput = false;
 
+        public static InputState InputState = InputState.Ready;
+
         public static Task<Card> GetCardInput()
         {
+            InputState = InputState.GetCardInput;
             UserInputNeeded = true;
 
             return Task.Run(() =>
@@ -36,12 +44,14 @@ namespace FinalProject
                 CardInput = null;
                 HeadOrMinion = null;
                 Minion = null;
+                InputState = InputState.Ready;
                 return target;
             });
         }
 
         public static Task<Minion> GetEnemyHeadOrMinion()
         {
+            InputState = InputState.GetEnemyHeadOrMinion;
             UserInputNeeded = true;
             return Task.Run(() =>
             {
@@ -59,12 +69,14 @@ namespace FinalProject
                 CardInput = null;
                 HeadOrMinion = null;
                 Minion = null;
+                InputState = InputState.Ready;
                 return target;
             });
         }
 
         public static Task<Minion> GetEnemyMinion()
         {
+            InputState = InputState.GetEnemyMinion;
             UserInputNeeded = true;
             return Task.Run(() =>
             {
@@ -82,7 +94,7 @@ namespace FinalProject
                 CardInput = null;
                 HeadOrMinion = null;
                 Minion = null;
-
+                InputState = InputState.Ready;
                 return target;
             });
         }
