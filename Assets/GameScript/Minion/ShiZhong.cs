@@ -4,6 +4,10 @@ namespace FinalProject
     {
         private short mask;
 
+        public short Mask {
+            get { return mask; }
+        }
+
         public ShiZhong() : base("陳時中", 3, 3, 2, Attribute.Green) {
             mask = 3;
         }
