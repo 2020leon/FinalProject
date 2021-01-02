@@ -32,8 +32,6 @@ namespace FinalProject
         public Queue<KeyValuePair<Player, Minion>> MinionsOnField = new Queue<KeyValuePair<Player, Minion>>();
         [HideInInspector]
         public Queue<Minion> RemoveFromFieldMinions = new Queue<Minion>();
-        [HideInInspector]
-        public Dictionary<ShiZhong, short> ShiZhongMaskDictionary = new Dictionary<ShiZhong, short>();
 
         [HideInInspector]
         public string RoundNumber = string.Empty;
@@ -146,10 +144,6 @@ namespace FinalProject
         {
             RemoveFromHandCards.Enqueue(sender);
             MinionsOnField.Enqueue(new KeyValuePair<Player, Minion>(sender.Player, sender));
-            if (sender is ShiZhong)
-            {
-                ShiZhongMaskDictionary.Add((ShiZhong)sender, (sender as ShiZhong).Mask);
-            }
         }
 
         public void SendLaunchSpellSignal(Spell sender)
@@ -248,7 +242,6 @@ namespace FinalProject
 
         public void SendRemainingMasks(ShiZhong sender, short remainingMasks)
         {
-            ShiZhongMaskDictionary[sender] = remainingMasks;
         }
     }
 }

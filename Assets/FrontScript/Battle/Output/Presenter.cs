@@ -152,6 +152,7 @@ namespace FinalProject
 					cardObject.GetComponent<Renderer>().material = materials[minion.Name];
 					cardObject.GetComponent<CardDataHolder>().card = minion;
 					cardObject.GetComponent<CardMouseListener>().isOnField = true;
+					cardObject.GetComponent<CardStatusUpdate>().manager = model.animationManager;
 					Card card = minion;
 					cardObject.transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + card.Cost.ToString());
 					cardObject.transform.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Atk.ToString());
@@ -170,6 +171,7 @@ namespace FinalProject
 					GameObject minionObject = Instantiate(fieldMinionPrefab);
 					minionObject.GetComponent<Renderer>().material = minionMaterials[minion.Name];
 					minionObject.GetComponent<MinionDataHolder>().minion = minion;
+					minionObject.GetComponent<MinionStatusUpdate>().manager = model.animationManager;
 					minionObject.transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
 					minionObject.transform.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
 					minionObject.transform.GetChild(1).GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
@@ -187,8 +189,6 @@ namespace FinalProject
 
 		private void UpdateStatus()
 		{
-			UpdateUserFieldStatus();
-			UpdateEnemyFieldStatus();
 			UpdatePlayerHP();
 			UpdateEnemyHP();
 		}
@@ -261,59 +261,6 @@ namespace FinalProject
 			}
 		}
 
-		private void UpdateUserFieldStatus()
-		{
-			for (int i = 0; i < selfField.childCount; i++)
-			{
-				Transform child = selfField.GetChild(i);
-				Minion minion = (Minion)child.GetComponent<CardDataHolder>().card;
-				child.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
-				child.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
-                child.GetChild(1).GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
-				if (minion is ShiZhong)
-                {
-					short maskNumber = -1;
-					model.ShiZhongMaskDictionary.TryGetValue((ShiZhong)minion, out maskNumber);
-					if (maskNumber > 0)
-                    {
-						child.GetChild(1).GetChild(4).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + maskNumber);
-					}
-					else
-                    {
-						child.GetChild(1).GetChild(4).gameObject.SetActive(false);
-						model.ShiZhongMaskDictionary.Remove((ShiZhong)minion);
-                    }
-                }
-			}
-		}
-
-		private void UpdateEnemyFieldStatus()
-		{
-			for (int i = 0; i < enemyField.childCount; i++)
-			{
-				Transform child = enemyField.GetChild(i);
-				Minion minion = child.GetComponent<MinionDataHolder>().minion;
-				child.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
-				child.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
-				child.GetChild(1).GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
-
-				if (minion is ShiZhong)
-				{
-					short maskNumber = -1;
-					model.ShiZhongMaskDictionary.TryGetValue((ShiZhong)minion, out maskNumber);
-					if (maskNumber > 0)
-					{
-						child.GetChild(1).GetChild(4).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + maskNumber);
-					}
-					else
-					{
-						child.GetChild(1).GetChild(4).gameObject.SetActive(false);
-						model.ShiZhongMaskDictionary.Remove((ShiZhong)minion);
-					}
-				}
-			}
-		}
-
 		private void UpdatePlayerHP()
 		{
 			if (playerHeadHolder.Player != null)
@@ -341,7 +288,7 @@ namespace FinalProject
 					{
 						if (gameObject.GetComponent<CardDataHolder>().card == target)
 						{
-							model.animationManager.EnqueueAnimator(gameObject.transform.GetChild(0).GetComponent<Animator>());
+							gameObject.transform.GetChild(0).GetComponent<Animator>().SetTrigger("start");
 							return true;
 						}
 					}
@@ -349,7 +296,7 @@ namespace FinalProject
 					{
 						if (gameObject.GetComponent<MinionDataHolder>().minion == target)
 						{
-							model.animationManager.EnqueueAnimator(gameObject.transform.GetChild(0).GetComponent<Animator>());
+							gameObject.transform.GetChild(0).GetComponent<Animator>().SetTrigger("start");
 							return true;
 						}
 					}
