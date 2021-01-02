@@ -222,7 +222,6 @@ namespace FinalProject
 			else {
 				endTurnButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("素材/EndTurnButton");
 			}
-			Debug.Log(endTurnButton.GetComponent<Image>().sprite);
 		}
 
 		private void UpdateUserFieldStatus()
