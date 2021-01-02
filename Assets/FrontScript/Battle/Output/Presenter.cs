@@ -206,7 +206,7 @@ namespace FinalProject
 				if (player != null) {
 					if (player.IsUser()) {
 						cardObject.transform.GetChild(1).GetChild(3).gameObject.SetActive(
-							player.Status == PlayerStatus.Acting && !player.AttackedMinions.Contains(minion) && GameState.InputState == InputState.GetCardInput && player.Game.GetMyEnemy(player).CanAnyMinionAttack
+							player.Status == PlayerStatus.Acting && !player.AttackedMinions.Contains(minion) && GameState.InputState == InputState.GetCardInput && (player.Game.GetMyEnemy(player).CanAnyMinionAttack || player.Game.GetMyEnemy(player).MinionsOnField.Count == 0)
 						);
 					}
 					else {
