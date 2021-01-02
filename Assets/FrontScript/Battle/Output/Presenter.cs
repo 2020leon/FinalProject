@@ -148,6 +148,11 @@ namespace FinalProject
 					cardObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Hp.ToString());
 					cardObject.transform.SetParent(selfField);
 
+					if (minion is ShiZhong)
+                    {
+						cardObject.transform.GetChild(4).gameObject.SetActive(true);
+                    }
+
 					minionsOnField.Add(cardObject);
 				}
 				else
@@ -159,6 +164,11 @@ namespace FinalProject
 					minionObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
 					minionObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
 					minionObject.transform.SetParent(enemyField);
+
+					if (minion is ShiZhong)
+					{
+						minionObject.transform.GetChild(3).gameObject.SetActive(true);
+					}
 
 					minionsOnField.Add(minionObject);
 				}
@@ -182,6 +192,19 @@ namespace FinalProject
 				child.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
 				child.GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
                 child.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
+				if (minion is ShiZhong)
+                {
+					short maskNumber = model.ShiZhongMaskDictionary[(ShiZhong)minion];
+					if (maskNumber > 0)
+                    {
+						child.GetChild(4).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + maskNumber);
+					}
+					else
+                    {
+						child.GetChild(4).gameObject.SetActive(false);
+						model.ShiZhongMaskDictionary.Remove((ShiZhong)minion);
+                    }
+                }
 			}
 		}
 
@@ -194,6 +217,20 @@ namespace FinalProject
 				child.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
 				child.GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
 				child.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
+
+				if (minion is ShiZhong)
+				{
+					short maskNumber = model.ShiZhongMaskDictionary[(ShiZhong)minion];
+					if (maskNumber > 0)
+					{
+						child.GetChild(3).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + maskNumber);
+					}
+					else
+					{
+						child.GetChild(3).gameObject.SetActive(false);
+						model.ShiZhongMaskDictionary.Remove((ShiZhong)minion);
+					}
+				}
 			}
 		}
 
