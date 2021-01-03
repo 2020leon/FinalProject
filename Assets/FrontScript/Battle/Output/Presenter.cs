@@ -66,8 +66,8 @@ namespace FinalProject
 			UpdateCash();
 			AddDrawnCard();
 			RemoveHandCard();
-			RemoveFieldMinion();
 			UpdateFieldCard();
+			RemoveFieldMinion();
 			UpdateStatus();
 			SetLight();
 			UpdateInflation();
