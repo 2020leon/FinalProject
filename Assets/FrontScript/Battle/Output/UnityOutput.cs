@@ -25,6 +25,12 @@ namespace FinalProject
         private EnemyHeadHolder enemyHeadHolder;
         [SerializeField]
         private PlayerHeadHolder playerHeadHolder;
+        //new
+        [SerializeField]
+        private Animator atkAnimator;
+        [SerializeField]
+        private Animator spellAnimator;
+
 
         [HideInInspector]
         public Queue<KeyValuePair<Player, Card>> DrawnCards = new Queue<KeyValuePair<Player, Card>>();
@@ -110,6 +116,7 @@ namespace FinalProject
             {
                 roundImage.sprite = Resources.Load<Sprite>("回合/round--");
             }
+            
 
             animationManager.EnqueueAnimator(roundChangeAnimator);
         }
@@ -160,6 +167,9 @@ namespace FinalProject
         public void SendLaunchSpellSignal(Spell sender)
         {
             RemoveFromHandCards.Enqueue(sender);
+            //test
+            spellAnimator.runtimeAnimatorController = Resources.Load("Animation/" + sender.Name) as RuntimeAnimatorController;
+            animationManager.EnqueueAnimator(spellAnimator);
         }
 
         public void SendEndOfRoundSignal(Player sender)
@@ -170,6 +180,7 @@ namespace FinalProject
         public void SendAfterFieldSize(Player sender, short fieldSize)
         {
             //TODO: not implemented
+            
         }
 
         public void SendAfterIsInflation(Player sender, short inflationTime)
@@ -234,6 +245,10 @@ namespace FinalProject
         public void SendBeAttackedMinion(Minion sender, Minion beAttackedMinion)
         {
             //TODO: not implemented
+            //animationManager.EnqueueAnimator(atkAnimator);
+            //test
+            atkAnimator.runtimeAnimatorController = Resources.Load("Animation/" + sender.Name + "L") as RuntimeAnimatorController;
+            animationManager.EnqueueAnimator(atkAnimator);
         }
 
         public void SendRemoveFromFieldSignal(Minion sender)
