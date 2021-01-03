@@ -244,11 +244,12 @@ namespace FinalProject
 
         public void SendBeAttackedMinion(Minion sender, Minion beAttackedMinion)
         {
-            //TODO: not implemented
             //animationManager.EnqueueAnimator(atkAnimator);
             //test
-            atkAnimator.runtimeAnimatorController = Resources.Load("Animation/" + sender.Name + "L") as RuntimeAnimatorController;
-            animationManager.EnqueueAnimator(atkAnimator);
+            animationManager.EnqueueAnimator(atkAnimator, (animator) =>
+            {
+                animator.runtimeAnimatorController = Resources.Load("Animation/" + sender.Name + "L") as RuntimeAnimatorController;
+            });
         }
 
         public void SendRemoveFromFieldSignal(Minion sender)

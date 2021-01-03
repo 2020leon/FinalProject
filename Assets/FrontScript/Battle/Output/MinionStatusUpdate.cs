@@ -30,7 +30,7 @@ namespace FinalProject
             {
 				int diff = minion.Atk - oldAtk;
 				transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("加攻擊/atkplus" + diff);
-				transform.GetChild(2).GetComponent<Animator>().SetTrigger("start");
+				manager.EnqueueAnimator(transform.GetChild(2).GetComponent<Animator>());
 				oldAtk = minion.Atk;
             }
 			if (minion.Hp != oldHp)
@@ -45,7 +45,7 @@ namespace FinalProject
                 {
 					int diff = oldHp - minion.Hp;
 					transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("扣血/minus" + diff);
-					transform.GetChild(2).GetComponent<Animator>().SetTrigger("start");
+					manager.EnqueueAnimator(transform.GetChild(2).GetComponent<Animator>());
 					oldHp = minion.Hp;
                 }
             }

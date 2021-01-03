@@ -8,8 +8,26 @@ public class AnimationManager : MonoBehaviour {
 
 	public void EnqueueAnimator(Animator animator)
 	{
-		animators.Enqueue(animator);
+		EnqueueAnimator(animator, (a) => { });
 	}
+
+	public delegate void AnimatorSetup(Animator animator);
+	private Dictionary<Animator, List<AnimatorSetup>> animatorSetup = new Dictionary<Animator, List<AnimatorSetup>>();
+	public void EnqueueAnimator(Animator animator, AnimatorSetup setup)
+    {
+		if (animatorSetup.ContainsKey(animator))
+        {
+			animatorSetup[animator].Add(setup);
+        }
+		else
+        {
+			List<AnimatorSetup> list = new List<AnimatorSetup>();
+			list.Add(setup);
+			animatorSetup.Add(animator, list);
+        }
+
+		animators.Enqueue(animator);
+    }
 
 	void Update()
 	{
@@ -18,6 +36,14 @@ public class AnimationManager : MonoBehaviour {
 			if (animators.Count > 0)
 			{
 				Animator animator = animators.Dequeue();
+
+				animatorSetup[animator][0](animator);
+				animatorSetup[animator].RemoveAt(0);
+				if (animatorSetup[animator].Count == 0)
+                {
+					animatorSetup.Remove(animator);
+                }
+
 				AnimationEvent animEvent = new AnimationEvent();
 				animEvent.functionName = "onAnimationFinished";
 				AnimationClip clip = animator.runtimeAnimatorController.animationClips[0];
