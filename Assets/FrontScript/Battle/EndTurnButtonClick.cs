@@ -8,7 +8,9 @@ namespace FinalProject
     {
         public void onClick()
         {
-            GameState.GiveUpInput = true;
+            if (GameState.InputState != InputState.Ready) {
+                GameState.GiveUpInput = true;
+            }
         }
     }
 }
