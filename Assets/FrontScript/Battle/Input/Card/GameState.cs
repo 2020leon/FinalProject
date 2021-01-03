@@ -34,6 +34,7 @@ namespace FinalProject
                 {
                     ;
                 }
+                InputState = InputState.Ready;
                 if (CardInput == null)
                 {
                     GiveUpInput = false;
@@ -44,7 +45,6 @@ namespace FinalProject
                 CardInput = null;
                 HeadOrMinion = null;
                 Minion = null;
-                InputState = InputState.Ready;
                 return target;
             });
         }
@@ -59,6 +59,7 @@ namespace FinalProject
                 {
                     ;
                 }
+                InputState = InputState.Ready;
                 if (HeadOrMinion == null)
                 {
                     GiveUpInput = false;
@@ -69,7 +70,6 @@ namespace FinalProject
                 CardInput = null;
                 HeadOrMinion = null;
                 Minion = null;
-                InputState = InputState.Ready;
                 return target;
             });
         }
@@ -84,6 +84,7 @@ namespace FinalProject
                 {
                     ;
                 }
+                InputState = InputState.Ready;
                 if (Minion == null)
                 {
                     GiveUpInput = false;
