@@ -16,6 +16,7 @@ namespace FinalProject
         public short Hp {
             get { return hp; }
             set {
+                GameIO.GameOut.SendChangingHp(this, hp, value);
                 hp = value;
                 GameIO.GameOut.SendAfterHp(this, hp);
             }
@@ -24,6 +25,7 @@ namespace FinalProject
         public short Atk {
             get { return atk; }
             internal set {
+                GameIO.GameOut.SendChangingAtk(this, atk, value);
                 atk = value;
                 GameIO.GameOut.SendAfterAtk(this, atk);
             }

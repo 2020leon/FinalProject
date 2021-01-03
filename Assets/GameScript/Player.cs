@@ -25,6 +25,7 @@ namespace FinalProject
 
         public short WalletSize {
             internal set {
+                GameIO.GameOut.SendChangingWalletSize(this, walletSize, value);
                 walletSize = value;
                 GameIO.GameOut.SendAfterWalletSize(this, walletSize);
                 Cash = Cash;
@@ -34,6 +35,7 @@ namespace FinalProject
 
         public short FieldSize {
             internal set {
+                GameIO.GameOut.SendChangingFieldSize(this, fieldSize, value);
                 fieldSize = value;
                 GameIO.GameOut.SendAfterFieldSize(this, fieldSize);
             }
@@ -42,15 +44,25 @@ namespace FinalProject
 
         public short Cash {
             set {
-                if (value <= walletSize) cash = value;
-                else cash = walletSize;
-                GameIO.GameOut.SendAfterCash(this, cash);
+                if (value <= walletSize) {
+                    if (value != cash) {
+                        GameIO.GameOut.SendChangingCash(this, cash, value);
+                        cash = value;
+                        GameIO.GameOut.SendAfterCash(this, cash);
+                    }
+                }
+                else {
+                    GameIO.GameOut.SendChangingCash(this, cash, walletSize);
+                    cash = walletSize;
+                    GameIO.GameOut.SendAfterCash(this, cash);
+                }
             }
             get { return cash; }
         }
 
         internal short InflationTime {
             set {
+                GameIO.GameOut.SendChangingInflationTime(this, inflationTime, value);
                 inflationTime = value;
                 GameIO.GameOut.SendAfterIsInflation(this, inflationTime);
             }

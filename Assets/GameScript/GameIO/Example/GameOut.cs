@@ -28,8 +28,12 @@ namespace Example
             Console.WriteLine("  - Field size after: " + sender.FieldSize);
         }
 
+        public void SendChangingFieldSize(Player sender, short beforeFieldSize, short afterFieldSize) {}
+
         public void SendAfterCash(Player sender, short cash) {
         }
+
+        public void SendChangingCash(Player sender, short beforeCash, short afterCash) {}
 
         public void SendAfterIsInflation(Player sender, short inflationTime) {
             if (inflationTime > 0) {
@@ -39,6 +43,8 @@ namespace Example
                 Console.WriteLine("\n- " + sender.Name + " will not suffer from inflation.");
             }
         }
+
+        public void SendChangingInflationTime(Player sender, short beforeInflationTime, short afterInflationTime) {}
 
         public void SendAfterStatus(Player sender, PlayerStatus playerStatus) {
         }
@@ -50,6 +56,8 @@ namespace Example
         public void SendAfterWalletSize(Player sender, short walletSize) {
             Console.WriteLine("  - Wallet size after: " + walletSize);
         }
+
+        public void SendChangingWalletSize(Player sender, short beforeWalletSize, short afterWalletSize) {}
 
         public void SendPlayerCanDoNothingSignal(Player sender) {
             Console.WriteLine("- *" + sender.Name + " can do nothing.*");
@@ -126,9 +134,13 @@ namespace Example
             Console.WriteLine("  - " + sender.Name + " Hp after: " + hp);
         }
 
+        public void SendChangingHp(Minion sender, short beforeHp, short afterHp) {}
+
         public void SendAfterAtk(Minion sender, short atk) {
             Console.WriteLine("  - " + sender.Name + " Atk after: " + atk);
         }
+
+        public void SendChangingAtk(Minion sender, short beforeAtk, short afterAtk) {}
 
         public void SendAfterIsEnabledToBeAttacked(Minion sender, bool isEnabledToBeAttacked) {
             if (isEnabledToBeAttacked) {
