@@ -13,7 +13,7 @@ namespace FinalProject
         }
 
         public override void BeAttackedBy(Minion minion) {
-            if (mask > 0) {
+            if (mask > 0 && !(minion is Player)) {
                 mask--;
                 GameIO.GameOut.SendRemainingMasks(this, mask);
             }
