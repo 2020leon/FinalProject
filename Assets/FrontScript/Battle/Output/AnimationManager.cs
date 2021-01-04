@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimationManager : MonoBehaviour {
-	public static bool currentAnimationEnded = true;
+	//public static bool currentAnimationEnded = true;
+	public static short currentAnimationCount = 0;
+	private static string statusChangeAnimatorName = "StatusChange";
+	private static string explodeChangeAnimatorName = "Explode";
 	public Queue<Animator> animators = new Queue<Animator>();
 
 	public void EnqueueAnimator(Animator animator)
@@ -53,9 +56,9 @@ public class AnimationManager : MonoBehaviour {
 
 	void Update()
 	{
-		if (currentAnimationEnded)
+		if (/*currentAnimationEnded && */currentAnimationCount == 0)
         {
-			if (animators.Count > 0)
+			while (animators.Count > 0)
 			{
 				Animator animator = animators.Dequeue();
 
@@ -81,7 +84,16 @@ public class AnimationManager : MonoBehaviour {
                 }
 
 				animator.SetTrigger("start");
-				currentAnimationEnded = false;
+				currentAnimationCount++;
+				if (animators.Count > 0) {
+					var peek = animators.Peek();
+					if (!(
+						((peek.name == animator.name || peek.name == explodeChangeAnimatorName) && animator.name == statusChangeAnimatorName) ||
+						(animator.name == explodeChangeAnimatorName && peek.name == statusChangeAnimatorName)
+					)) {
+						break;
+					}
+				}
 			}
         }
 	}
@@ -91,15 +103,20 @@ public class AnimationManager : MonoBehaviour {
 		public AnimationEnd end;
         public void onAnimationFinished()
 		{
-			end();
-			currentAnimationEnded = true;
+			try {
+				end();
+			} catch(System.NullReferenceException e) {
+				Debug.Log(e);
+			}
+			//currentAnimationEnded = true;
 			Destroy(this);
 		}
 
         private void OnDestroy()
         {
 			end();
-			currentAnimationEnded = true;
+			currentAnimationCount--;
+			//currentAnimationEnded = true;
         }
     }
 }
