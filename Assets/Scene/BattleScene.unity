@@ -660,6 +660,8 @@ MonoBehaviour:
   endTurnButton: {fileID: 1307784168}
   playerInflation: {fileID: 1580271696}
   enemyInflation: {fileID: 1520395469}
+  cardsObjectInHand: []
+  minionsOnField: []
 --- !u!1 &201465541
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,6 +713,7 @@ MonoBehaviour:
   playerHeadHolder: {fileID: 1183635122}
   atkAnimator: {fileID: 610077656}
   spellAnimator: {fileID: 805175271}
+  presenter: {fileID: 196081402}
   RoundNumber: 
   UserCash: 0
   EnemyCash: 0

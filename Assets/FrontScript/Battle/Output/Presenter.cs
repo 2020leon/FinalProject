@@ -33,10 +33,8 @@ namespace FinalProject
 
 		[SerializeField]
 		private GameObject fieldMinionPrefab;
-		[SerializeField]
-		private Transform selfField;
-		[SerializeField]
-		private Transform enemyField;
+		public Transform selfField;
+		public Transform enemyField;
 		[SerializeField]
 		private MaterialMap minionMaterials;
 
@@ -57,8 +55,9 @@ namespace FinalProject
 		[SerializeField]
 		private GameObject enemyInflation;
 
-		private List<GameObject> cardsObjectInHand = new List<GameObject>();
-		private List<GameObject> minionsOnField = new List<GameObject>();
+		[HideInInspector]
+		public List<GameObject> cardsObjectInHand = new List<GameObject>();
+		public List<GameObject> minionsOnField = new List<GameObject>();
 
 		// Update is called once per frame
 		void Update()
@@ -152,7 +151,6 @@ namespace FinalProject
 					cardObject.GetComponent<Renderer>().material = materials[minion.Name];
 					cardObject.GetComponent<CardDataHolder>().card = minion;
 					cardObject.GetComponent<CardMouseListener>().isOnField = true;
-					cardObject.GetComponent<CardStatusUpdate>().manager = model.animationManager;
 					Card card = minion;
 					cardObject.transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + card.Cost.ToString());
 					cardObject.transform.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Atk.ToString());
@@ -171,7 +169,6 @@ namespace FinalProject
 					GameObject minionObject = Instantiate(fieldMinionPrefab);
 					minionObject.GetComponent<Renderer>().material = minionMaterials[minion.Name];
 					minionObject.GetComponent<MinionDataHolder>().minion = minion;
-					minionObject.GetComponent<MinionStatusUpdate>().manager = model.animationManager;
 					minionObject.transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
 					minionObject.transform.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
 					minionObject.transform.GetChild(1).GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());

@@ -25,7 +25,6 @@ namespace FinalProject
         private EnemyHeadHolder enemyHeadHolder;
         [SerializeField]
         private PlayerHeadHolder playerHeadHolder;
-        //new
         [SerializeField]
         private Animator atkAnimator;
         [SerializeField]
@@ -40,6 +39,9 @@ namespace FinalProject
         public Queue<KeyValuePair<Player, Minion>> MinionsOnField = new Queue<KeyValuePair<Player, Minion>>();
         [HideInInspector]
         public Queue<Minion> RemoveFromFieldMinions = new Queue<Minion>();
+
+        [SerializeField]
+        private Presenter presenter;
 
         [HideInInspector]
         public string RoundNumber = string.Empty;
@@ -116,7 +118,7 @@ namespace FinalProject
             {
                 roundImage.sprite = Resources.Load<Sprite>("回合/round--");
             }
-            
+
 
             animationManager.EnqueueAnimator(roundChangeAnimator);
         }
@@ -180,7 +182,7 @@ namespace FinalProject
         public void SendAfterFieldSize(Player sender, short fieldSize)
         {
             //TODO: not implemented
-            
+
         }
 
         public void SendAfterIsInflation(Player sender, short inflationTime)
@@ -269,6 +271,98 @@ namespace FinalProject
 
         public void SendRemainingMasks(ShiZhong sender, short remainingMasks)
         {
+        }
+
+        public void SendChangingFieldSize(Player sender, short beforeFieldSize, short afterFieldSize)
+        {
+
+        }
+
+        public void SendChangingCash(Player sender, short beforeCash, short afterCash)
+        {
+
+        }
+
+        public void SendChangingInflationTime(Player sender, short beforeInflationTime, short afterInflationTime)
+        {
+
+        }
+
+        public void SendChangingWalletSize(Player sender, short beforeWalletSize, short afterWalletSize)
+        {
+
+        }
+
+
+        public void SendChangingHp(Minion sender, short beforeHp, short afterHp)
+        {
+            foreach (GameObject gameObject in presenter.minionsOnField)
+            {
+                if (gameObject.transform.IsChildOf(presenter.selfField))
+                {
+                    if (sender == gameObject.GetComponent<CardDataHolder>().card)
+                    {
+                        EnqueueHPAnimation(gameObject, beforeHp, afterHp);
+                    }
+                }
+                else
+                {
+                    if (sender == gameObject.GetComponent<MinionDataHolder>().minion)
+                    {
+                        EnqueueHPAnimation(gameObject, beforeHp, afterHp);
+                    }
+                }
+            }
+        }
+
+        private void EnqueueHPAnimation(GameObject gameObject, short beforeHp, short afterHp)
+        {
+            if (afterHp > beforeHp)
+            {
+                animationManager.EnqueueAnimator(gameObject.transform.GetChild(2).GetComponent<Animator>(), (animator) =>
+                {
+                    gameObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("加血/plus1");
+                });
+            }
+            else
+            {
+                animationManager.EnqueueAnimator(gameObject.transform.GetChild(2).GetComponent<Animator>(), (animator) =>
+                {
+                    int diff = beforeHp - afterHp;
+                    gameObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("扣血/minus" + diff);
+                });
+            }
+        }
+
+        public void SendChangingAtk(Minion sender, short beforeAtk, short afterAtk)
+        {
+            int diff = afterAtk - beforeAtk;
+
+            foreach (GameObject gameObject in presenter.minionsOnField)
+            {
+                if (gameObject.transform.IsChildOf(presenter.selfField))
+                {
+                    if (sender == gameObject.GetComponent<CardDataHolder>().card)
+                    {
+                        EnqueueAtkAnimation(gameObject, afterAtk - beforeAtk);
+                    }
+                }
+                else
+                {
+                    if (sender == gameObject.GetComponent<MinionDataHolder>().minion)
+                    {
+                        EnqueueAtkAnimation(gameObject, afterAtk - beforeAtk);
+                    }
+                }
+            }
+        }
+
+        private void EnqueueAtkAnimation(GameObject gameObject, int diff)
+        {
+            animationManager.EnqueueAnimator(gameObject.transform.GetChild(2).GetComponent<Animator>(), (animator) =>
+            {
+                gameObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("加攻擊/atkplus" + diff);
+            });
         }
     }
 }
