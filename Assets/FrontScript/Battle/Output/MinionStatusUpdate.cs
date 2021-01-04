@@ -6,9 +6,22 @@ namespace FinalProject
 {
 	public class MinionStatusUpdate : MonoBehaviour
 	{
+
+		public bool needsUpdate = true;
+
+
         // Update is called once per frame
         void Update()
 		{
+			if (needsUpdate)
+            {
+				UpdateStatus();
+				needsUpdate = false;
+            }
+		}
+
+		void UpdateStatus()
+        {
 			Minion minion = GetComponent<MinionDataHolder>().minion;
 			transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
 			transform.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());

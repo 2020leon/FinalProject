@@ -8,18 +8,30 @@ namespace FinalProject
 	class CardStatusUpdate : MonoBehaviour
 	{
 
+		public bool needsUpdate = true;
+
         // Update is called once per frame
         void Update()
 		{
+			if (needsUpdate)
+            {
+				UpdateStatus();
+				needsUpdate = false;
+            }
+		}
+
+		void UpdateStatus()
+        {
 			Minion minion;
 			try
 			{
 				minion = (Minion)GetComponent<CardDataHolder>().card;
-			} catch (InvalidCastException)
-            {
+			}
+			catch (InvalidCastException)
+			{
 				//not in field
 				return;
-            }
+			}
 
 			if (minion.Player.IsUser())
 			{

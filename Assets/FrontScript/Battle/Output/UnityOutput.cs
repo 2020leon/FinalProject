@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using FinalProject;
 
 namespace FinalProject
 {
@@ -329,27 +330,33 @@ namespace FinalProject
                 {
                     if (sender == gameObject.GetComponent<CardDataHolder>().card)
                     {
-                        EnqueueHPAnimation(gameObject, beforeHp, afterHp);
+                        EnqueueHPAnimation(gameObject, beforeHp, afterHp, () =>
+                        {
+                            gameObject.GetComponent<CardStatusUpdate>().needsUpdate = true;
+                        });
                     }
                 }
                 else
                 {
                     if (sender == gameObject.GetComponent<MinionDataHolder>().minion)
                     {
-                        EnqueueHPAnimation(gameObject, beforeHp, afterHp);
+                        EnqueueHPAnimation(gameObject, beforeHp, afterHp, () =>
+                        {
+                            gameObject.GetComponent<MinionStatusUpdate>().needsUpdate = true;
+                        });
                     }
                 }
             }
         }
 
-        private void EnqueueHPAnimation(GameObject gameObject, short beforeHp, short afterHp)
+        private void EnqueueHPAnimation(GameObject gameObject, short beforeHp, short afterHp, Action end)
         {
             if (afterHp > beforeHp)
             {
                 animationManager.EnqueueAnimator(gameObject.transform.GetChild(2).GetComponent<Animator>(), (animator) =>
                 {
                     gameObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("加血/plus1");
-                });
+                }, () => { end(); });
             }
             else
             {
@@ -357,7 +364,7 @@ namespace FinalProject
                 {
                     int diff = beforeHp - afterHp;
                     gameObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("扣血/minus" + diff);
-                });
+                }, () => { end(); });
             }
         }
 
@@ -371,25 +378,31 @@ namespace FinalProject
                 {
                     if (sender == gameObject.GetComponent<CardDataHolder>().card)
                     {
-                        EnqueueAtkAnimation(gameObject, afterAtk - beforeAtk);
+                        EnqueueAtkAnimation(gameObject, afterAtk - beforeAtk, () =>
+                        {
+                            gameObject.GetComponent<CardStatusUpdate>().needsUpdate = true;
+                        });
                     }
                 }
                 else
                 {
                     if (sender == gameObject.GetComponent<MinionDataHolder>().minion)
                     {
-                        EnqueueAtkAnimation(gameObject, afterAtk - beforeAtk);
+                        EnqueueAtkAnimation(gameObject, afterAtk - beforeAtk, () =>
+                        {
+                            gameObject.GetComponent<MinionStatusUpdate>().needsUpdate = true;
+                        });
                     }
                 }
             }
         }
 
-        private void EnqueueAtkAnimation(GameObject gameObject, int diff)
+        private void EnqueueAtkAnimation(GameObject gameObject, int diff, Action end)
         {
             animationManager.EnqueueAnimator(gameObject.transform.GetChild(2).GetComponent<Animator>(), (animator) =>
             {
                 gameObject.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("加攻擊/atkplus" + diff);
-            });
+            }, () => { end(); });
         }
     }
 }

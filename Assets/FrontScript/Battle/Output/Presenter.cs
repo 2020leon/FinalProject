@@ -57,6 +57,7 @@ namespace FinalProject
 
 		[HideInInspector]
 		public List<GameObject> cardsObjectInHand = new List<GameObject>();
+		[HideInInspector]
 		public List<GameObject> minionsOnField = new List<GameObject>();
 
 		// Update is called once per frame
