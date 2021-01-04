@@ -285,7 +285,6 @@ namespace FinalProject
 					{
 						if (gameObject.GetComponent<CardDataHolder>().card == target)
 						{
-							gameObject.transform.GetChild(0).GetComponent<Animator>().SetTrigger("start");
 							return true;
 						}
 					}
@@ -293,7 +292,6 @@ namespace FinalProject
 					{
 						if (gameObject.GetComponent<MinionDataHolder>().minion == target)
 						{
-							gameObject.transform.GetChild(0).GetComponent<Animator>().SetTrigger("start");
 							return true;
 						}
 					}

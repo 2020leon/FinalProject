@@ -257,6 +257,33 @@ namespace FinalProject
         public void SendRemoveFromFieldSignal(Minion sender)
         {
             RemoveFromFieldMinions.Enqueue(sender);
+
+            GameObject needToRemove = presenter.minionsOnField.Find((gameObject) =>
+            {
+                if (gameObject.transform.IsChildOf(presenter.selfField))
+                {
+                    if (gameObject.GetComponent<CardDataHolder>().card == sender)
+                    {
+                        animationManager.EnqueueAnimator(gameObject.transform.GetChild(0).GetComponent<Animator>(), (animator) => { }, () =>
+                        {
+                            Destroy(gameObject);
+                        });
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (gameObject.GetComponent<MinionDataHolder>().minion == sender)
+                    {
+                        animationManager.EnqueueAnimator(gameObject.transform.GetChild(0).GetComponent<Animator>(), (animator) => { }, () =>
+                        {
+                            Destroy(gameObject);
+                        });
+                        return true;
+                    }
+                }
+                return false;
+            });
         }
 
         public void SendMinionDieSignal(Minion sender)
