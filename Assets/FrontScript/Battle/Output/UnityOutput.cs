@@ -9,7 +9,8 @@ namespace FinalProject
 {
     class UnityOutput : MonoBehaviour, IGameOut
     {
-        public AnimationManager animationManager;
+        [SerializeField]
+        private AnimationManager animationManager;
         [SerializeField]
         private Animator roundChangeAnimator;
         [SerializeField]
@@ -152,7 +153,6 @@ namespace FinalProject
 
         public void SendAfterStatus(Player sender, PlayerStatus playerStatus)
         {
-            //TODO: not implemented
             Debug.Log("After status" + playerStatus.ToString());
         }
 
