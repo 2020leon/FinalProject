@@ -299,6 +299,7 @@ namespace FinalProject
 
         public void SendRemainingMasks(ShiZhong sender, short remainingMasks)
         {
+
         }
 
         public void SendChangingFieldSize(Player sender, short beforeFieldSize, short afterFieldSize)
@@ -332,6 +333,7 @@ namespace FinalProject
                     {
                         EnqueueHPAnimation(gameObject, beforeHp, afterHp, () =>
                         {
+                            gameObject.GetComponent<CardStatusUpdate>().intermediateHp = afterHp;
                             gameObject.GetComponent<CardStatusUpdate>().needsUpdate = true;
                         });
                     }
@@ -342,6 +344,7 @@ namespace FinalProject
                     {
                         EnqueueHPAnimation(gameObject, beforeHp, afterHp, () =>
                         {
+                            gameObject.GetComponent<MinionStatusUpdate>().intermediateHp = afterHp;
                             gameObject.GetComponent<MinionStatusUpdate>().needsUpdate = true;
                         });
                     }
@@ -380,6 +383,7 @@ namespace FinalProject
                     {
                         EnqueueAtkAnimation(gameObject, afterAtk - beforeAtk, () =>
                         {
+                            gameObject.GetComponent<CardStatusUpdate>().intermediateAtk = afterAtk;
                             gameObject.GetComponent<CardStatusUpdate>().needsUpdate = true;
                         });
                     }
@@ -390,6 +394,7 @@ namespace FinalProject
                     {
                         EnqueueAtkAnimation(gameObject, afterAtk - beforeAtk, () =>
                         {
+                            gameObject.GetComponent<MinionStatusUpdate>().intermediateAtk = afterAtk;
                             gameObject.GetComponent<MinionStatusUpdate>().needsUpdate = true;
                         });
                     }
