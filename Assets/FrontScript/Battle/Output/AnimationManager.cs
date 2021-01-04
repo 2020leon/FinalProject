@@ -114,7 +114,11 @@ public class AnimationManager : MonoBehaviour {
 
         private void OnDestroy()
         {
-			end();
+			try {
+				end();
+			} catch(System.NullReferenceException e) {
+				Debug.Log(e);
+			}
 			currentAnimationCount--;
 			//currentAnimationEnded = true;
         }
