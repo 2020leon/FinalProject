@@ -5,9 +5,26 @@ using UnityEngine;
 public class AnimationManager : MonoBehaviour {
 	//public static bool currentAnimationEnded = true;
 	public static short currentAnimationCount = 0;
-	private static string statusChangeAnimatorName = "StatusChange";
-	private static string explodeChangeAnimatorName = "Explode";
+	private const string statusChangeAnimatorName = "StatusChange";
+	private const string explodeChangeAnimatorName = "Explode";
 	public Queue<Animator> animators = new Queue<Animator>();
+
+	//audio
+	[SerializeField]
+	private AudioClip atkAudio;
+	[SerializeField]
+	private AudioClip spellAudio;
+	[SerializeField]
+	private AudioClip fakeNewsAudio;
+	[SerializeField]
+	private AudioClip earthquakeAudio;
+	[SerializeField]
+	private AudioClip explodeAudio;
+	private AudioSource audioSource;
+
+	private void Start() {
+		audioSource = GetComponent<AudioSource>();
+	}
 
 	public void EnqueueAnimator(Animator animator)
 	{
@@ -85,6 +102,33 @@ public class AnimationManager : MonoBehaviour {
 
 				animator.SetTrigger("start");
 				currentAnimationCount++;
+				// audio start
+				/*if (animator.name == atkAnimatorName) {
+					GetComponent<AudioSource>().PlayOneShot(atkAudio, 1);
+				}
+				else if (animator.name == spellAnimatorName) {
+					GetComponent<AudioSource>().PlayOneShot(spellAudio, 1);
+				}*/
+				switch (animator.name) {
+					case "同志遊行":
+					case "中天新聞":
+					case "通貨膨脹":
+						audioSource.PlayOneShot(spellAudio, 1);
+						break;
+					case "假新聞":
+						audioSource.PlayOneShot(fakeNewsAudio ,1);
+						break;
+					case "大地震":
+						audioSource.PlayOneShot(earthquakeAudio, 1);
+						break;
+					case "侯友宜L": // all minion atk
+						audioSource.PlayOneShot(atkAudio, 1);
+						break;
+					case explodeChangeAnimatorName:
+						audioSource.PlayOneShot(explodeAudio, 1);
+						break;
+				}
+				// audio end
 				if (animators.Count > 0) {
 					var peek = animators.Peek();
 					if (!(

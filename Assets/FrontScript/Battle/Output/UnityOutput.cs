@@ -171,6 +171,7 @@ namespace FinalProject
         {
             RemoveFromHandCards.Enqueue(sender);
             //test
+            spellAnimator.name = sender.Name;
             spellAnimator.runtimeAnimatorController = Resources.Load("Animation/" + sender.Name) as RuntimeAnimatorController;
             animationManager.EnqueueAnimator(spellAnimator);
         }

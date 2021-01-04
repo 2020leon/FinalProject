@@ -7,10 +7,14 @@ namespace FinalProject
     public class CardMouseListener : MonoBehaviour {
 
         public bool isOnField = false;
+        [SerializeField]
+        private AudioClip cardJumpAudio;
         private short delta;
+        private AudioSource audioSource;
 
         private void Start() {
             delta = 0;
+            audioSource = GetComponent<AudioSource>();
         }
 
         private void Update() {
@@ -33,6 +37,7 @@ namespace FinalProject
             if (!isOnField && delta <= 0)
             {
                 delta += 4;
+                audioSource.PlayOneShot(cardJumpAudio, 1);
             }
         }
 
