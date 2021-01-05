@@ -180,57 +180,9 @@ namespace FinalProject
 
 		private void UpdateFieldCard()
 		{
-			while (model.MinionsOnField.Count > 0)
-			{
-				KeyValuePair<Player, Minion> pair = model.MinionsOnField.Dequeue();
-				Player player = pair.Key;
-				Minion minion = pair.Value;
-
-				if (player.IsUser())
-				{
-					GameObject cardObject = Instantiate(cardPrefab);
-					cardObject.GetComponent<Renderer>().material = materials[minion.Name];
-					cardObject.GetComponent<CardDataHolder>().card = minion;
-					cardObject.GetComponent<CardMouseListener>().isOnField = true;
-					Card card = minion;
-					cardObject.transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + card.Cost.ToString());
-					cardObject.transform.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Atk.ToString());
-					cardObject.transform.GetChild(1).GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Hp.ToString());
-					cardObject.transform.SetParent(selfField);
-
-					if (minion is ShiZhong)
-                    {
-						cardObject.transform.GetChild(1).GetChild(4).gameObject.SetActive(true);
-                    }
-
-					minionsOnField.Add(cardObject);
-				}
-				else
-				{
-					GameObject minionObject = Instantiate(fieldMinionPrefab);
-					minionObject.GetComponent<Renderer>().material = minionMaterials[minion.Name];
-					minionObject.GetComponent<MinionDataHolder>().minion = minion;
-					minionObject.transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
-					minionObject.transform.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
-					minionObject.transform.GetChild(1).GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
-					minionObject.transform.SetParent(enemyField);
-
-					if (minion is ShiZhong)
-					{
-						minionObject.transform.GetChild(1).GetChild(4).gameObject.SetActive(true);
-					}
-
-					minionsOnField.Add(minionObject);
-				}
-			}
-
 			foreach (var generatedPair in preGenerated)
             {
 				generatedPair.Key.transform.SetParent(generatedPair.Value);
-				if (!minionsOnField.Contains(generatedPair.Key))
-                {
-					minionsOnField.Add(generatedPair.Key);
-				}
             }
 			preGenerated = new Dictionary<GameObject, Transform>();
 		}

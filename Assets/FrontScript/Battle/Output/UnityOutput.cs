@@ -38,8 +38,6 @@ namespace FinalProject
         [HideInInspector]
         public Queue<Card> RemoveFromHandCards = new Queue<Card>();
         [HideInInspector]
-        public Queue<KeyValuePair<Player, Minion>> MinionsOnField = new Queue<KeyValuePair<Player, Minion>>();
-        [HideInInspector]
         public Queue<Minion> RemoveFromFieldMinions = new Queue<Minion>();
 
         [SerializeField]
