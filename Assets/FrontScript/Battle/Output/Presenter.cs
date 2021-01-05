@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace FinalProject
 {
-	public class Presenter : MonoBehaviour
+	class Presenter : MonoBehaviour
 	{
 
 		[SerializeField]
@@ -63,14 +63,14 @@ namespace FinalProject
 		// Update is called once per frame
 		void Update()
 		{
+			UpdateFieldCard();
 			UpdateCash();
 			AddDrawnCard();
 			RemoveHandCard();
-            UpdateFieldCard();
-            RemoveFieldMinion();
 			UpdateStatus();
 			SetLight();
 			UpdateInflation();
+			RemoveFieldMinion();
 		}
 
 		private void UpdateCash()
@@ -138,6 +138,46 @@ namespace FinalProject
 			}
 		}
 
+		private Dictionary<GameObject, Transform> preGenerated = new Dictionary<GameObject, Transform>();
+
+		public GameObject GenerateCard(Player player, Minion minion)
+        {
+			if (minion.Player.IsUser())
+            {
+				GameObject cardObject = Instantiate(cardPrefab);
+				cardObject.GetComponent<Renderer>().material = materials[minion.Name];
+				cardObject.GetComponent<CardDataHolder>().card = minion;
+				cardObject.GetComponent<CardMouseListener>().isOnField = true;
+				Card card = minion;
+				cardObject.transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + card.Cost.ToString());
+				cardObject.transform.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Atk.ToString());
+				cardObject.transform.GetChild(1).GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + ((Minion)card).Hp.ToString());
+
+				if (minion is ShiZhong)
+				{
+					cardObject.transform.GetChild(1).GetChild(4).gameObject.SetActive(true);
+				}
+				preGenerated.Add(cardObject, selfField);
+				return cardObject;
+			}
+			else
+            {
+				GameObject minionObject = Instantiate(fieldMinionPrefab);
+				minionObject.GetComponent<Renderer>().material = minionMaterials[minion.Name];
+				minionObject.GetComponent<MinionDataHolder>().minion = minion;
+				minionObject.transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Cost.ToString());
+				minionObject.transform.GetChild(1).GetChild(1).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Atk.ToString());
+				minionObject.transform.GetChild(1).GetChild(2).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("數字/" + minion.Hp.ToString());
+
+				if (minion is ShiZhong)
+				{
+					minionObject.transform.GetChild(1).GetChild(4).gameObject.SetActive(true);
+				}
+				preGenerated.Add(minionObject, enemyField);
+				return minionObject;
+			}
+        }
+
 		private void UpdateFieldCard()
 		{
 			while (model.MinionsOnField.Count > 0)
@@ -183,6 +223,16 @@ namespace FinalProject
 					minionsOnField.Add(minionObject);
 				}
 			}
+
+			foreach (var generatedPair in preGenerated)
+            {
+				generatedPair.Key.transform.SetParent(generatedPair.Value);
+				if (!minionsOnField.Contains(generatedPair.Key))
+                {
+					minionsOnField.Add(generatedPair.Key);
+				}
+            }
+			preGenerated = new Dictionary<GameObject, Transform>();
 		}
 
 		private void UpdateStatus()

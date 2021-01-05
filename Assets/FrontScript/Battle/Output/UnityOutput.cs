@@ -164,7 +164,8 @@ namespace FinalProject
         public void SendGoOnFieldSignal(Minion sender)
         {
             RemoveFromHandCards.Enqueue(sender);
-            MinionsOnField.Enqueue(new KeyValuePair<Player, Minion>(sender.Player, sender));
+            GameObject card = presenter.GenerateCard(sender.Player, sender);
+            presenter.minionsOnField.Add(card);
         }
 
         public void SendLaunchSpellSignal(Spell sender)
@@ -259,32 +260,37 @@ namespace FinalProject
         {
             RemoveFromFieldMinions.Enqueue(sender);
 
-            GameObject needToRemove = presenter.minionsOnField.Find((gameObject) =>
+            foreach (GameObject @object in presenter.minionsOnField)
             {
-                if (gameObject.transform.IsChildOf(presenter.selfField))
+                if (sender.Player.IsUser())
                 {
-                    if (gameObject.GetComponent<CardDataHolder>().card == sender)
+                    if (@object.GetComponent<CardDataHolder>() == null)
                     {
-                        animationManager.EnqueueAnimator(gameObject.transform.GetChild(0).GetComponent<Animator>(), (animator) => { }, () =>
+                        continue;
+                    }
+                    if (@object.GetComponent<CardDataHolder>().card == sender)
+                    {
+                        animationManager.EnqueueAnimator(@object.transform.GetChild(0).GetComponent<Animator>(), (animator) => { }, () =>
                         {
-                            Destroy(gameObject);
+                            Destroy(@object);
                         });
-                        return true;
                     }
                 }
                 else
                 {
-                    if (gameObject.GetComponent<MinionDataHolder>().minion == sender)
+                    if (@object.GetComponent<MinionDataHolder>() == null)
                     {
-                        animationManager.EnqueueAnimator(gameObject.transform.GetChild(0).GetComponent<Animator>(), (animator) => { }, () =>
+                        continue;
+                    }
+                    if (@object.GetComponent<MinionDataHolder>().minion == sender)
+                    {
+                        animationManager.EnqueueAnimator(@object.transform.GetChild(0).GetComponent<Animator>(), (animator) => { }, () =>
                         {
-                            Destroy(gameObject);
+                            Destroy(@object);
                         });
-                        return true;
                     }
                 }
-                return false;
-            });
+            }
         }
 
         public void SendMinionDieSignal(Minion sender)

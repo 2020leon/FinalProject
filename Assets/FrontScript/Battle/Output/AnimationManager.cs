@@ -56,7 +56,7 @@ public class AnimationManager : MonoBehaviour {
 
 	void Update()
 	{
-		if (/*currentAnimationEnded && */currentAnimationCount == 0)
+		if (currentAnimationCount == 0)
         {
 			while (animators.Count > 0)
 			{
@@ -108,7 +108,6 @@ public class AnimationManager : MonoBehaviour {
 			} catch(System.NullReferenceException e) {
 				Debug.Log(e);
 			}
-			//currentAnimationEnded = true;
 			Destroy(this);
 		}
 
@@ -120,7 +119,6 @@ public class AnimationManager : MonoBehaviour {
 				Debug.Log(e);
 			}
 			currentAnimationCount--;
-			//currentAnimationEnded = true;
         }
     }
 }
